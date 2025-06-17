@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const routes = require('./routes/routes');
+const routes = require('./src/routes/routes');
 const cors = require('cors');
 // const authRoutes = require('./routes/authRoutes');
 // const menuRoutes = require('./routes/menuRoutes');
@@ -24,7 +24,7 @@ global.apiUrl = 'https://backendrg.theinnovatesoft.xyz';
 
 // View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src', 'views'));
 
 // Routes
 app.use('/src', express.static('src'));
