@@ -24,10 +24,10 @@ global.apiUrl = 'https://backendrg.theinnovatesoft.xyz';
 
 // View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src', 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 // Routes
-app.use('/', express.static('src'));
+app.use('/src', express.static('src'));
 
 app.use('/', routes);
 
