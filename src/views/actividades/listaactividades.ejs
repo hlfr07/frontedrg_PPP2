@@ -152,7 +152,10 @@
                                 <div class="text-end">
                                     <button type="button" class="btn btn-sm btn-primary px-4"
                                         onclick="validarFechas()">Filtrar</button>
+                                        <button class="btn btn-secondary mt-2" onclick="mostrarTodas()">Mostrar todas</button>
+
                                 </div>
+                                
                             </div>
 
 
@@ -171,118 +174,8 @@
     </small>
 </div>
 
-                    <!-- SCRIPT de filtros rápidos + validación -->
-                    <script>
-                        // Formato yyyy-mm-dd para inputs tipo date
-                        function formatoFecha(fecha) {
-                            return fecha.toISOString().split('T')[0];
-                        }
-
-                        // Filtro: Hoy
-                        function filtroHoy() {
-                            const hoy = new Date();
-                            const hoyFormato = formatoFecha(hoy);
-                            document.getElementById('fechaInicio').value = hoyFormato;
-                            document.getElementById('fechaFin').value = hoyFormato;
-                        }
-
-                        // Filtro: Esta semana (desde hoy hacia 7 días atrás)
-                        function filtroSemana() {
-                            const hoy = new Date();
-                            const hace7dias = new Date();
-                            hace7dias.setDate(hoy.getDate() - 6); // 7 días incluyendo hoy
-                            document.getElementById('fechaInicio').value = formatoFecha(hace7dias);
-                            document.getElementById('fechaFin').value = formatoFecha(hoy);
-                        }
-
-                        // Filtro: Este mes (desde hoy hacia 30 días atrás)
-                        function filtroMes() {
-                            const hoy = new Date();
-                            const hace30dias = new Date();
-                            hace30dias.setDate(hoy.getDate() - 29);
-                            document.getElementById('fechaInicio').value = formatoFecha(hace30dias);
-                            document.getElementById('fechaFin').value = formatoFecha(hoy);
-                        }
-
-                        // Validación de fechas antes de aplicar filtro
-                        function validarFechas() {
-    const fechaInicio = document.getElementById('fechaInicio').value;
-    const fechaFin = document.getElementById('fechaFin').value;
-    const hoy = new Date().toISOString().split('T')[0];
-
-    if (!fechaInicio || !fechaFin) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Fechas incompletas',
-            text: 'Por favor, complete ambas fechas para continuar.',
-            confirmButtonColor: '#007bff',
-            confirmButtonText: 'Aceptar'
-        });
-        return;
-    }
-
-    if (fechaFin > hoy) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Fecha inválida',
-            text: 'La fecha "Hasta" no puede ser posterior a hoy.',
-            confirmButtonColor: '#dc3545',
-            confirmButtonText: 'Entendido'
-        });
-        return;
-    }
-
-    if (fechaInicio > fechaFin) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Rango incorrecto',
-            text: 'La fecha "Desde" no puede ser posterior a la fecha "Hasta".',
-            confirmButtonColor: '#dc3545',
-            confirmButtonText: 'Revisar'
-        });
-        return;
-    }
-
-    // ✅ Fechas válidas
-    console.log("Fechas válidas: desde", fechaInicio, "hasta", fechaFin);
-    // aplicarFiltros(fechaInicio, fechaFin); // Lógica posterior si todo es correcto
-}
-
-                        function descargarEvidenciasMasivas() {
-    const fechaInicio = document.getElementById('fechaInicio').value;
-    const fechaFin = document.getElementById('fechaFin').value;
-
-    if (!fechaInicio || !fechaFin) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Fechas incompletas',
-            text: 'Por favor, selecciona ambas fechas antes de descargar.',
-            confirmButtonColor: '#007bff'
-        });
-        return;
-    }
-
-    if (fechaInicio > fechaFin) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Rango inválido',
-            text: 'La fecha de inicio no puede ser mayor que la fecha final.',
-            confirmButtonColor: '#dc3545'
-        });
-        return;
-    }
-
-    const apiurl = "<%- apiurl %>";
-    const url = `${apiurl}/rares/descargaMasiva?inicio=${fechaInicio}&fin=${fechaFin}`;
-
-    // Descarga directa
-    window.location.href = url;
-}
-                    </script>
-
-
-
-
+                    
+                   
 
 
                     <!-- Content -->
@@ -295,28 +188,31 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <ul class="activity-list">
-                                            <% evidencias.forEach(evidencia=> { %>
-                                                <li
-                                                    style="padding: 15px; border: 2px solid #000; margin-bottom: 10px; border-radius: 5px;">
-                                                    <p><strong>CONDIGO CONTRATO: </strong>
-                                                        <%= evidencia.actividad.cliente.cod_contrato %>
-                                                    </p>
-                                                    <p><strong>CLIENTE: </strong>
-                                                        <%= evidencia.actividad.cliente.nombres %>
-                                                    </p>
-                                                    <p><strong>COMENTARIO: </strong>
-                                                        <%= evidencia.comentario %>
-                                                    </p>
-                                                    <p><strong>FECHA: </strong>
-                                                        <%= evidencia.fecha %>
-                                                    </p>
-                                                    <button type="button" onclick="verinfo('<%= evidencia.imgzip %>')"
-                                                        class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye fa-fw"></i> Descargar evidencia
-                                                    </button>
-                                                </li>
-                                                <% }) %>
-                                        </ul>
+    <% evidencias.forEach(evidencia=> { %>
+        <li
+            style="padding: 15px; border: 2px solid #000; margin-bottom: 10px; border-radius: 5px;"
+            data-fecha="<%= evidencia.fecha %>"
+            class="actividad-completada">
+            <p><strong>CODIGO CONTRATO: </strong>
+                <%= evidencia.actividad.cliente.cod_contrato %>
+            </p>
+            <p><strong>CLIENTE: </strong>
+                <%= evidencia.actividad.cliente.nombres %>
+            </p>
+            <p><strong>COMENTARIO: </strong>
+                <%= evidencia.comentario %>
+            </p>
+            <p><strong>FECHA: </strong>
+                <%= evidencia.fecha %>
+            </p>
+            <button type="button" onclick="verinfo('<%= evidencia.imgzip %>')"
+                class="btn btn-info btn-sm">
+                <i class="fas fa-eye fa-fw"></i> Descargar evidencia
+            </button>
+        </li>
+    <% }) %>
+</ul>
+
                                     </div>
                                 </div>
                             </fieldset>
@@ -388,17 +284,226 @@
     <script src="/src/assets/js/main.js"></script>
     <script>
         function verinfo(imgzip) {
-            // Obtener el token (esto debería estar disponible en tu plantilla)
+    const apiurl = "<%- apiurl %>"; // viene desde EJS
 
-            const apiurl = "<%- apiurl %>";
-            //alert(imgzip);
+    // Construir la URL de descarga
+    const url = `${apiurl}/rares/download/${imgzip}`;
 
-            // Construir la URL para descargar el archivo
-            const url = `${apiurl}/rares/download/${imgzip}`;
+    // Crear un enlace <a> oculto y simular clic
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = ''; // O puedes darle un nombre personalizado si sabes el nombre del archivo
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 
-            // Redirigir al navegador a la URL para descargar el archivo
-            window.location.href = url;
+
+
+        // ------------------------------SCRIPT de filtros rápidos + validación -->
+
+        // Formato yyyy-mm-dd para inputs tipo date
+                        function formatoFecha(fecha) {
+                            return fecha.toISOString().split('T')[0];
+                        }
+
+                        // Filtro: Hoy
+                        function filtroHoy() {
+                            const hoy = new Date();
+                            const hoyFormato = formatoFecha(hoy);
+                            document.getElementById('fechaInicio').value = hoyFormato;
+                            document.getElementById('fechaFin').value = hoyFormato;
+
+                            // llamar a la función de validación
+                            validarFechas();
+                        }
+
+                        // Filtro: Esta semana (desde hoy hacia 7 días atrás)
+                        function filtroSemana() {
+                            const hoy = new Date();
+                            const hace7dias = new Date();
+                            hace7dias.setDate(hoy.getDate() - 6); // 7 días incluyendo hoy
+                            document.getElementById('fechaInicio').value = formatoFecha(hace7dias);
+                            document.getElementById('fechaFin').value = formatoFecha(hoy);
+
+                            // llamar a la función de validación
+                            validarFechas();
+                        }
+
+                        // Filtro: Este mes (desde hoy hacia 30 días atrás)
+                        function filtroMes() {
+                            const hoy = new Date();
+                            const hace30dias = new Date();
+                            hace30dias.setDate(hoy.getDate() - 29);
+                            document.getElementById('fechaInicio').value = formatoFecha(hace30dias);
+                            document.getElementById('fechaFin').value = formatoFecha(hoy);
+
+                            // llamar a la función de validación
+                            validarFechas();
+                        }
+
+                        // Validación de fechas antes de aplicar filtro
+                        function validarFechas() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    const hoy = new Date().toISOString().split('T')[0];
+
+    if (!fechaInicio || !fechaFin) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Fechas incompletas',
+            text: 'Por favor, complete ambas fechas para continuar.',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if (fechaFin > hoy) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Fecha inválida',
+            text: 'La fecha "Hasta" no puede ser posterior a hoy.',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    if (fechaInicio > fechaFin) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Rango incorrecto',
+            text: 'La fecha "Desde" no puede ser posterior a la fecha "Hasta".',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Revisar'
+        });
+        return;
+    }
+
+    // ✅ Filtrar en el DOM sin recargar
+    const actividades = document.querySelectorAll('.actividad-completada');
+    actividades.forEach(item => {
+        const fechaActividad = item.getAttribute('data-fecha');
+        if (fechaActividad >= fechaInicio && fechaActividad <= fechaFin) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
         }
+    });
+}
+// Mostrar todas las actividades al cargar la página
+
+function mostrarTodas() {
+    document.querySelectorAll('.actividad-completada').forEach(el => {
+        el.style.display = 'block';
+    });
+    document.getElementById('fechaInicio').value = '';
+    document.getElementById('fechaFin').value = '';
+}
+
+    // ✅ Fechas válidas
+const actividades = document.querySelectorAll('.actividad-completada');
+
+actividades.forEach(item => {
+    const fechaActividad = item.getAttribute('data-fecha');
+
+    if (fechaActividad >= fechaInicio && fechaActividad <= fechaFin) {
+        item.style.display = 'block';
+    } else {
+        item.style.display = 'none';
+    }
+});
+
+mostrarTodas();
+
+// Función para descargar evidencias masivas
+
+function descargarEvidenciasMasivas() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    const hoy = new Date().toISOString().split('T')[0];
+
+    const apiurl = "<%- apiurl %>"; // desde EJS
+
+    // 🔒 Validaciones
+    if (!fechaInicio || !fechaFin) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Fechas incompletas',
+            text: 'Por favor, complete ambas fechas para continuar.',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if (fechaFin > hoy) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Fecha inválida',
+            text: 'La fecha "Hasta" no puede ser posterior a hoy.',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    if (fechaInicio > fechaFin) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Rango incorrecto',
+            text: 'La fecha "Desde" no puede ser posterior a la fecha "Hasta".',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Revisar'
+        });
+        return;
+    }
+
+    // 🎯 Filtrar evidencias dentro del rango
+    const evidenciasFiltradas = Array.from(document.querySelectorAll('.actividad-completada'))
+        .filter(item => {
+            const fecha = item.getAttribute('data-fecha');
+            return fecha >= fechaInicio && fecha <= fechaFin;
+        });
+
+    if (evidenciasFiltradas.length === 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Sin evidencias',
+            text: 'No hay evidencias dentro del rango seleccionado.',
+            confirmButtonColor: '#6c757d',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    // 📥 Descargar una por una
+    evidenciasFiltradas.forEach(item => {
+        const btn = item.querySelector('button[onclick^="verinfo"]');
+        const imgzip = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        const url = `${apiurl}/rares/download/${imgzip}`;
+
+        // 👇 Simula clic de descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    // ✅ Confirmación
+    Swal.fire({
+        icon: 'success',
+        title: 'Descarga iniciada',
+        text: `${evidenciasFiltradas.length} evidencia(s) descargadas.`,
+        confirmButtonColor: '#28a745',
+        confirmButtonText: 'Aceptar'
+    });
+}
+
+
     </script>
 
 
