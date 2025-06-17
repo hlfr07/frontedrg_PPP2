@@ -2,7 +2,7 @@
   "name": "express-simple-app",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {
