@@ -27,7 +27,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 
 // Routes
-app.use('/src', express.static('src'));
+app.use('/', express.static('src'));
 
 app.use('/', routes);
 
