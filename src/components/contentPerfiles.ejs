@@ -1,0 +1,52 @@
+<section class="full-box page-content">
+    <%- include('aside.ejs') %>
+
+    <!-- Page header -->
+    <div class="full-box page-header">
+        <h3 class="text-left centered">
+            <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PERFIL
+        </h3>
+        <p class="text-justify">
+        
+        </p>
+    </div>
+    
+    <%- include('pageheader_perfiles.ejs') %>
+
+    
+    <!-- Content -->
+    <div class="container-fluid">
+        <form action="" class="form-neon" autocomplete="off">
+            <fieldset>
+                <legend><i class="far fa-address-card"></i> &nbsp; Información perfil</legend>
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <!--
+                        <div class="col-12 col-md-4">
+                            <div class="form-group"> 
+                                <label for="usuario_dni" class="bmd-label-floating">DNI</label>
+                                <input type="text" pattern="[0-9-]{1,20}" class="form-control" name="usuario_dni" id="usuario_dni" maxlength="20">
+                            </div>
+                        </div>
+                    -->
+                        
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="perfil_nombre" class="bmd-label-floating">Nombre de Perfil</label>
+                                <input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="perfil_nombre" id="perfil_nombre" maxlength="35">
+                            </div>
+                        </div>
+                </div>
+            </fieldset>
+            <br><br><br>
+            <p class="text-center" style="margin-top: 40px;">
+                <button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
+                &nbsp; &nbsp;
+                <button type="button" class="btn btn-raised btn-info btn-sm" onclick="createperfil()" id="guardar-btn" ><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+            </p>
+        </form>
+    </div>
+    
+
+</section>

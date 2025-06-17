@@ -1,0 +1,54 @@
+<section class="full-box page-content">
+    <%- include('aside.ejs') %>
+
+    <!-- Page header -->
+    <div class="full-box page-header">
+        <h3 class="text-left">
+            <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PERFILES
+        </h3>
+        <p class="text-justify">
+        </p>
+    </div>
+    
+    <%- include('pageheader_perfiles.ejs') %>
+    
+    <!-- Content -->
+    <div class="container-fluid">
+        <div class="table-responsive">
+          <h3>Tabla de Perfiles</h3>
+          <table class="table table-dark table-sm" id="dataTable" >
+            <thead>
+              <tr class="text-center roboto-medium">
+                <th hidden>id</th>
+                <th>PERFIL</th>
+                <th>ACTUALIZAR</th>
+                <th>ELIMINAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% perfilespost.forEach((perfil, index) => { %>
+                <tr class="text-center">
+                  <td hidden><%= perfil.id %></td>
+                  <td><%= perfil.perfil || "N/A" %></td>
+                  <td>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editarModal" onclick="cargarDatosUsuario('<%= perfil.id %>', '<%= perfil.perfil %>')" >
+                      <i class="fas fa-sync-alt"></i>
+                    </button>
+                  </td>
+                  <td>
+                      <button type="button" onclick="eliminarusuario('<%= perfil.id %>')" class="btn btn-warning">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <div id="dataContainer">
+    </div>
+
+</section>

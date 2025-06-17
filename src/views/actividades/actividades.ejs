@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>Nuevo usuario</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css" />
+
+    <!-- Font Awesome V5.15.4 (última versión gratuita compatible) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha384-DyZ88mC6Up2uqSiy+qv+q8jtZqWgRXpAF6cT6Q25F7zNkH9U8P1FN1d4Zx4C3o1H" crossorigin="anonymous" />
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css" />
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css" />
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css" />
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css" />
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <%- include('../../components/navlateral.ejs') %>
+
+            <!-- Page content -->
+
+            <section class="full-box page-content">
+                <%- include('../../components/aside.ejs') %>
+
+                    <!-- Page header -->
+                    <div class="full-box page-header">
+                        <h3 class="text-left centered">
+                            <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ACTIVIDAD
+                        </h3>
+                        <p class="text-justify"></p>
+                    </div>
+
+
+                    <div class="container-fluid">
+                        <ul class="full-box list-unstyled page-nav-tabs">
+                            <li>
+                                <a class="active"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ACTIVIDAD</a>
+                            </li>
+                            <li>
+                                <a href="/listaactividades"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ACTIVIDADES</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="container-fluid">
+                        <form action="" class="form-neon" autocomplete="off">
+                            <fieldset>
+                                <legend>
+                                    <i class="far fa-address-card"></i> &nbsp; Información personal
+                                </legend>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!-- Usuario ID: Combo Box -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="usuario_id" class="bmd-label-floating">Usuario ID</label>
+                                                <select class="form-control" name="usuario_id" id="usuario_id" required>
+                                                    <option value="">Seleccione un usuario</option>
+                                                        
+                                                    <% usuarios.map(usuario=> { %>
+                                                        <!-- Aquí agregarías las opciones dinámicamente -->
+                                                        <option value="<%= usuario.id %>">
+                                                            <%= usuario.nombre %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cliente Cod Contrato: Combo Box -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="cliente_cod_contrato" class="bmd-label-floating">Código de
+                                                    Contrato</label>
+                                                <select class="form-control" name="cliente_cod_contrato"
+                                                    id="cliente_cod_contrato" required>
+                                                    <option value="">Seleccione un codigo de contrato</option>
+                                                    <% clientes.map(cliente=> { %>
+                                                        <!-- Aquí agregarías las opciones dinámicamente -->
+                                                        <option value="<%= cliente.cod_contrato %>">
+                                                            <%= cliente.nombres %> <%= cliente.cod_contrato %>
+                                                            
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Servicio ID: Combo Box -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="servicio_id" class="bmd-label-floating">Servicio ID</label>
+                                                <select class="form-control" name="servicio_id" id="servicio_id"
+                                                    required>
+                                                    <option value="">Seleccione un servicio</option>
+                                                        <% servicios.map(servicio=> { %>
+                                                            <!-- Aquí agregarías las opciones dinámicamente -->
+                                                    <option value="<%= servicio.id %>">
+                                                        <%= servicio.servicio %>
+                                                    </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Título: Input Text -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="titulo" class="bmd-label-floating">Título</label>
+                                                <input type="text" pattern=".{1,100}" class="form-control" name="titulo"
+                                                    id="titulo" maxlength="100" required />
+                                            </div>
+                                        </div>
+
+                                        <!-- Descripción: Input Text -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="descripcion" class="bmd-label-floating">Descripción</label>
+                                                <textarea class="form-control" name="descripcion" id="descripcion"
+                                                    rows="3" maxlength="255" required></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Fecha: Input Date -->
+                                        <div class="col-12 col-md-4" hidden>
+                                            <div class="form-group">
+                                                <label for="fecha" class="bmd-label-floating">Fecha</label>
+                                                <input type="date" class="form-control" name="fecha" id="fecha"
+                                                    required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <p class="text-center" style="margin-top: 40px">
+                                <button type="button" class="btn btn-raised btn-secondary btn-sm"
+                                    onclick="limpiarFormulario()">
+                                    <i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR
+                                </button>
+                                &nbsp; &nbsp;
+                                <button type="button" class="btn btn-raised btn-info btn-sm" onclick="createaActividad()"
+                                    id="guardar-btn">
+                                    <i class="far fa-save"></i> &nbsp; GUARDAR
+                                </button>
+                            </p>
+                        </form>
+                    </div>
+            </section>
+  
+
+
+            <!-- Page header close-->
+    </main>
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").bootstrapMaterialDesign();
+        });
+    </script>
+    <script>
+        // Establecer la fecha actual en el campo de fecha cuando se carga la página
+        document.addEventListener("DOMContentLoaded", function () {
+            const fechaInput = document.getElementById('fecha');
+            const hoy = new Date(); // Obtiene la fecha actual
+            const fechaFormateada = hoy.toISOString().split('T')[0]; // Formatea la fecha como YYYY-MM-DD
+            fechaInput.value = fechaFormateada; // Asigna la fecha al campo
+        });
+
+        function createaActividad() {
+    // Obtener los valores del formulario
+    const usuario_id = document.getElementById('usuario_id').value;
+    const cliente_cod_contrato = document.getElementById('cliente_cod_contrato').value;
+    const servicio_id = document.getElementById('servicio_id').value;
+    const titulo = document.getElementById('titulo').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const fecha = document.getElementById('fecha').value;
+
+    // Verifica si todos los campos tienen valores (si son obligatorios)
+    if (!usuario_id || !cliente_cod_contrato || !servicio_id || !titulo || !descripcion || !fecha) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Por favor complete todos los campos.',
+        });
+        return;
+    }
+
+    // Token de autenticación (esto ya está en el código, lo pasamos como una variable EJS)
+    const token = "<%- token %>";
+    const apiurl = "<%- apiurl %>";
+
+    // Configuración de la solicitud POST
+    const actividadData = {
+        usuario_id: usuario_id,
+        cliente_cod_contrato: cliente_cod_contrato,
+        servicio_id: servicio_id,
+        titulo: titulo,
+        descripcion: descripcion,
+        fecha: fecha
+    };
+
+    // Realizar la solicitud POST usando Axios
+    axios.post(`${apiurl}/actividades`, actividadData, {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Aquí enviamos el token como parte de los headers
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function (response) {
+        // Si la solicitud es exitosa
+        Swal.fire({
+            icon: 'success',
+            title: 'Actividad creada',
+            text: 'La actividad ha sido creada correctamente.',
+        }).then(() => {
+            // Redirige a la página de actividades o recarga la página
+            window.location.href = '/actividades';
+        });
+    })
+    .catch(function (error) {
+        // Si hay un error en la solicitud
+        console.error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al crear la actividad',
+            text: 'Hubo un problema al crear la actividad. Por favor, inténtelo nuevamente.',
+        });
+    });
+}
+
+function limpiarFormulario() {
+    // Limpia los valores de los campos del formulario
+    document.getElementById('usuario_id').value = '';
+    document.getElementById('cliente_cod_contrato').value = '';
+    document.getElementById('servicio_id').value = '';
+    document.getElementById('titulo').value = '';
+    document.getElementById('descripcion').value = '';
+    document.getElementById('fecha').value = '';
+}
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/assets/js/main.js"></script>
+
+
+</body>
+
+</html>

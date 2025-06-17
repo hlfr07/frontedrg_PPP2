@@ -1,0 +1,86 @@
+<section class="full-box page-content">
+  <%- include('aside.ejs') %>
+
+
+  <!-- Page header -->
+  <div class="full-box page-header">
+    <h3 class="text-left">
+      <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE USUARIOS
+    </h3>
+    <p class="text-justify"></p>
+  </div>
+
+  <%- include('pageheader.ejs') %>
+
+
+  <!-- Content -->
+  <div class="container-fluid">
+    <div class="table-responsive">
+      <h3>Tabla de Usuarios</h3>
+      <table class="table table-dark table-sm" id="dataTable" >
+        <thead>
+          <tr class="text-center roboto-medium">
+            <th hidden>id</th>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>APELLIDO</th>
+            <th>USUARIO</th>
+            <th>EMAIL</th>
+            <th>PERFILES</th>
+            <th>ACTUALIZAR</th>
+            <th>ELIMINAR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% usuarios.forEach((usuario, index) => { %>
+            <tr class="text-center">
+              <td hidden><%= usuario.id %></td>
+              <td><%= usuario.dni || "N/A" %></td>
+              <td><%= usuario.nombre || "N/A" %></td>
+              <td><%= usuario.apellido || "N/A" %></td>
+              <td><%= usuario.usuario || "N/A" %></td>
+              <td><%= usuario.email || "N/A" %></td>
+              <td>
+                <% 
+                  // Filtrar los detalles de perfil para el usuario actual
+                  let perfilesDelUsuario = detallesperfiles.filter(detalle => detalle.usuario.id === usuario.id && detalle.estado === true);
+                  if (perfilesDelUsuario.length === 0) { 
+                %>
+                  <li>Perfiles no asignados</li>
+                <% 
+                  } else { 
+                    perfilesDelUsuario.forEach(perfil => { 
+                %>
+                  <li>
+                    <% if (!perfil.perfil.id) { %>
+                      Perfiles no asignados
+                    <% } else { %>
+                      <%= perfil.perfil.perfil %>
+                    <% } %>
+                  </li>
+                <% 
+                    }); 
+                  } 
+                %>
+              </td> <!-- Aquí se mostrarán los perfiles -->
+                
+              <td>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editarModal" onclick="cargarDatosUsuario('<%= usuario.id %>', '<%= usuario.dni %>', '<%= usuario.nombre %>', '<%= usuario.apellido %>', '<%= usuario.usuario %>', '<%= usuario.email %>', <%= JSON.stringify(perfilesDelUsuario) %>)" >
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </td>
+              <td>
+                  <button type="button" onclick="eliminarusuario('<%= usuario.id %>')" class="btn btn-warning">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="dataContainer"></div>
+</section>

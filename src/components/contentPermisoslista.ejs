@@ -1,0 +1,81 @@
+<section class="full-box page-content">
+    <nav class="full-box navbar-info">
+        <a href="#" class="float-left show-nav-lateral">
+            <i class="fas fa-exchange-alt"></i>
+        </a>
+        <a href="restriccionactualizar.html">
+            <i class="fas fa-user-cog"></i>
+        </a>
+        <a href="#" class="btn-exit-system">
+            <i class="fas fa-power-off"></i>
+        </a>
+    </nav>
+
+    <!-- Page header -->
+    <div class="full-box page-header">
+        <h3 class="text-left">
+            <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PERFILES
+        </h3>
+        <p class="text-justify">
+        </p>
+    </div>
+    
+    <%- include('pageheader_permisos.ejs') %>
+    
+    <!-- Content -->
+    <div class="container-fluid">
+        <div class="table-responsive">
+          <h3>Tabla de Permisos</h3>
+          <table class="table table-dark table-sm" id="dataTable">
+            <thead>
+              <tr class="text-center roboto-medium">
+                <th>MÓDULO</th>
+                <th>TABLA</th>
+                <th>PERFIL</th>
+                <th>PERMISOS</th>
+                <th>ACTUALIZAR</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% permisospost.forEach((permiso, index) => { %>
+                  <% if (permiso.tabla?.tabla !== "permisos") { %> <!-- Verificar que el nombre de la tabla no sea "permisos" -->
+                    <tr class="text-center">
+                      <td hidden><%= permiso.id %></td>
+                      <!-- Nombre del Módulo -->
+                      <td><%= permiso.modulo.modulo || "N/A" %></td>
+                      
+                      <!-- Nombre de la Tabla -->
+                      <td><%= permiso.tabla.tabla || "N/A" %></td>
+                      
+                      <!-- Nombre del Perfil -->
+                      <td><%= permiso.perfil.perfil || "N/A" %></td>
+                      
+                      <!-- Columna Consolidada de Permisos -->
+                      <td>
+                        GET: <%= permiso.get ? "✔" : "✘" %>,
+                        POST: <%= permiso.post ? "✔" : "✘" %>,
+                        PUT: <%= permiso.put ? "✔" : "✘" %>,
+                        DELETE: <%= permiso.delete ? "✔" : "✘" %>
+                      </td>
+                      
+                      <!-- Botón Actualizar -->
+                      <td>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editarModal" 
+                                onclick="cargarDatosPermiso('<%= permiso.id %>', '<%= permiso.modulo.id %>', '<%= permiso.tabla.id %>', '<%= permiso.perfil.id %>', <%= permiso.get %>, <%= permiso.post %>, <%= permiso.put %>, <%= permiso.delete %>)">
+                          <i class="fas fa-sync-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <% } %>
+                <% }); %>
+              </tbody>
+              
+          </table>
+        </div>
+      </div>
+      
+
+    <div id="dataContainer">
+    </div>
+
+</section>

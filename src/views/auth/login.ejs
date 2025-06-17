@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>Login</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css" />
+
+    <!-- Font Awesome V5.15.4 (última versión gratuita compatible) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha384-DyZ88mC6Up2uqSiy+qv+q8jtZqWgRXpAF6cT6Q25F7zNkH9U8P1FN1d4Zx4C3o1H"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link
+      rel="stylesheet"
+      href="/src/assets/css/bootstrap-material-design.min.css"
+    />
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css" />
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css" />
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+
+    <style>
+      body {
+        background: url(/src/assets/img/Portada.png);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .login-container {
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .logo {
+        width: 150px;
+        margin-bottom: 1rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .btn-login {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        margin-bottom: 1rem;
+        transition: background 0.3s;
+      }
+      .btn-login:hover {
+        background: #0056b3;
+      }
+      .forgot-password {
+        display: block;
+        text-align: center;
+        color: #007bff;
+        text-decoration: none;
+        margin-top: 1rem;
+      }
+      .forgot-password:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-content">
+        <p class="text-center">
+          <img
+            class="logo"
+            src="/src/assets/img/LogoPrincipal2.png"
+            alt="Logo"
+          />
+        </p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="UserName" class="bmd-label-floating"
+              ><i class="fas fa-user-secret"></i> &nbsp; Usuario</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="UserName"
+              name="usuario"
+              pattern="[a-zA-Z0-9]{1,35}"
+              maxlength="35"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="UserPassword" class="bmd-label-floating"
+              ><i class="fas fa-key"></i> &nbsp; Contraseña</label
+            >
+            <input
+              type="password"
+              class="form-control pr-5"
+              id="UserPassword"
+              name="clave"
+              maxlength="200"
+              required
+            />
+            <!-- Botón para mostrar/ocultar contraseña -->
+  <button
+  type="button"
+  class="btn btn-link position-absolute"
+    style="top: 0; right: 10px; height: 140%; display: flex; align-items: center; padding: 0; background: transparent; border: none; outline: none;"
+    onclick="togglePasswordVisibility()"
+>
+  <i class="fas fa-eye" id="togglePasswordIcon"></i>
+</button>
+          </div>
+          <button
+            type="button"
+            onclick="logear()"
+            id="btn-login"
+            class="btn-login"
+          >
+            Entrar
+          </button>
+          <a href="/recuperacion" class="forgot-password"
+            >¿Olvidaste tu contraseña?</a
+          >
+        </form>
+      </div>
+    </div>
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("body").bootstrapMaterialDesign();
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/assets/js/main.js"></script>
+
+    <script>
+      async function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("UserPassword");
+        const toggleIcon = document.getElementById("togglePasswordIcon");
+      
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("fa-eye");
+          toggleIcon.classList.add("fa-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("fa-eye-slash");
+          toggleIcon.classList.add("fa-eye");
+        }
+      }
+      // Función asyncrona para logear utilizando axios y try catch
+      async function logear() {
+        const btnLogin = document.getElementById("btn-login");
+
+        
+
+        //verifico que el username y el password no esten vacios
+        if (
+          document.getElementById("UserName").value == "" ||
+          document.getElementById("UserPassword").value == ""
+        ) {
+          // Restaurar el botón si falta algún campo
+    btnLogin.innerHTML = 'Entrar';
+    btnLogin.disabled = false;
+          // Mostrar un mensaje de error con SweetAlert
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Por favor, complete todos los campos.",
+            timer: 2000, // Cambia la duración del mensaje si lo deseas
+            showConfirmButton: false, // Oculta el botón "OK"
+          });
+          return;
+        }
+        // Cambiar el texto del botón y añadir el ícono de carga
+        btnLogin.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
+        btnLogin.disabled = true; // Desactivar el botón para evitar múltiples clics
+        const data = {
+          usuario: document.getElementById("UserName").value,
+          password: document.getElementById("UserPassword").value,
+        };
+
+        // Enviar una solicitud POST a la ruta "clientes" utilizando Axios
+        try {
+          // Realizar la solicitud de inicio de sesión
+          await axios.post("/login", data);
+
+          // Mostrar un mensaje de éxito con SweetAlert
+          Swal.fire({
+            icon: "success",
+            title: "Registro Exitoso",
+            text: "Inicio sesión correctamente.",
+            timer: 2000, // Cambia la duración del mensaje si lo deseas
+            showConfirmButton: false, // Oculta el botón "OK"
+          });
+
+          // Redirigir al usuario después de 2 segundos (2000 ms)
+          setTimeout(function () {
+            window.location.href = "/principal";
+          }, 1000);
+          
+        } catch (error) {
+          // Restaurar el botón si falta algún campo
+    btnLogin.innerHTML = 'Entrar';
+    btnLogin.disabled = false;
+          // Manejar el error con una alerta de SweetAlert
+          Swal.fire({
+            
+            icon: "error",
+            title: error.response.data.message,
+            confirmButtonText: "Aceptar",
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

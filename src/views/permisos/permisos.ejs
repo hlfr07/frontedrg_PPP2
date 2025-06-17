@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Nueva Restriccion</title>
+
+  <!-- Normalize V8.0.1 -->
+  <link rel="stylesheet" href="/src/assets/css/normalize.css">
+
+  <!-- Bootstrap V4.3 -->
+  <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+
+  <!-- Bootstrap Material Design V4.0 -->
+  <link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css">
+
+  <!-- Font Awesome V5.9.0 -->
+  <link rel="stylesheet" href="/src/assets/css/all.css">
+
+  <!-- Sweet Alerts V8.13.0 CSS file -->
+  <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css">
+
+  <!-- Sweet Alert V8.13.0 JS file-->
+  <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+  <!-- jQuery Custom Content Scroller V3.1.5 -->
+  <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css">
+
+  <!-- General Styles -->
+  <link rel="stylesheet" href="/src/assets/css/style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+</head>
+
+<body>
+  <!-- Main container -->
+  <main class="full-box main-container">
+    <!-- Nav lateral -->
+    <%- include('../../components/navlateral.ejs') %>
+
+    <!-- Page content -->
+    <%- include('../../components/contentpermisos.ejs') %>
+
+  </main>
+
+
+  <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+  <!-- jQuery V3.4.1 -->
+  <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+  <!-- popper -->
+  <script src="/src/assets/js/popper.min.js"></script>
+
+  <!-- Bootstrap V4.3 -->
+  <script src="/src/assets/js/bootstrap.min.js"></script>
+
+  <!-- jQuery Custom Content Scroller V3.1.5 -->
+  <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+  <!-- Bootstrap Material Design V4.0 -->
+  <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('body').bootstrapMaterialDesign();
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script src="/src/assets/js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let modulospost = <%- JSON.stringify(modulospost) %>;
+      let tablapost = <%- JSON.stringify(tablapost) %>;
+      let perfilespost = <%- JSON.stringify(perfilespost) %>;
+      cargarOpcionesCombo("modulo_agregar", modulospost, "id", "modulo");
+      cargarOpcionesCombo("tabla_agregar", tablapost, "id", "tabla");
+      cargarOpcionesCombo("perfil_agregar", perfilespost, "id", "perfil");
+    });
+    async function apiRequest(
+      method,
+      endpoint,
+      data = {},
+      token = "<%- token %>",
+      apiurl = "<%- apiurl %>"
+    ) {
+      const baseUrl = apiurl;
+
+      try {
+        const response = await axios({
+          method: method,
+          url: `${baseUrl}${endpoint}`,
+          data: method !== "GET" ? data : undefined,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data; // Retornar los datos de la respuesta
+      } catch (error) {
+        console.error(
+          `Error en ${method} ${endpoint}:`,
+          error.response?.data || error.message
+        );
+        throw error.response?.data || error; // Re-lanzar el error para manejarlo en las funciones específicas
+      }
+    }
+
+    function cargarOpcionesCombo(elementId, data, idField, nameField) {
+      const selectElement = document.getElementById(elementId);
+      selectElement.innerHTML = "<option value=''>Seleccione una opción</option>"; // Opción por defecto
+
+      // Llenar las opciones
+      data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item[idField]; // ID del elemento
+        option.textContent = item[nameField]; // Nombre del elemento
+        selectElement.appendChild(option);
+      });
+    }
+
+    async function AgregarPermiso() {
+      // Obtener los valores seleccionados del formulario
+      const idModulo = document.getElementById("modulo_agregar").value;
+      const idTabla = document.getElementById("tabla_agregar").value;
+      const idPerfil = document.getElementById("perfil_agregar").value;
+
+      // Obtener los valores de los checkboxes
+      const permisoGet = document.getElementById("permiso_get_agregar").checked ? "true" : "false";
+      const permisoPost = document.getElementById("permiso_post_agregar").checked ? "true" : "false";
+      const permisoPut = document.getElementById("permiso_put_agregar").checked ? "true" : "false";
+      const permisoDelete = document.getElementById("permiso_delete_agregar").checked ? "true" : "false";
+
+      // Validar que los campos obligatorios estén llenos
+      if (!idModulo || !idTabla || !idPerfil) {
+        alert("Por favor, complete todos los campos obligatorios.");
+        return;
+      }
+
+      // Crear el objeto para enviar al backend
+      const permisoData = {
+        id_modulo: idModulo,
+        id_tabla: idTabla,
+        id_perfil: idPerfil,
+        get: permisoGet,
+        post: permisoPost,
+        put: permisoPut,
+        delete: permisoDelete,
+      };
+
+      try {
+        // Enviar el nuevo permiso al backend
+        const response = await apiRequest("POST", "/permisos", permisoData);
+
+        Swal.fire({
+			title: "Creado",
+			text: "Permiso creado correctamente.",
+			icon: "success",
+			timer: 2000
+		}).then(() => {
+			window.location.reload();
+		});
+      } catch (error) {
+		Swal.fire({
+			title: "Error",
+			text: error.message || "Ocurrió un error al actualizar los datos.",
+			icon: "error"
+		});
+      }
+    }
+  </script>
+</body>
+
+</html>

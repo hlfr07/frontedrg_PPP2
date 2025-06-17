@@ -1,0 +1,94 @@
+<section class="full-box page-content">
+    <%- include('aside.ejs') %>
+
+    <!-- Page header -->
+    <div class="full-box page-header">
+        <h3 class="text-left centered">
+            <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PERMISO
+        </h3>
+        <p class="text-justify">
+        
+        </p>
+    </div>
+    
+    <%- include('pageheader_permisos.ejs') %>
+
+    
+    <!-- Content -->
+    <div class="container-fluid">
+        <form id="formAgregarPermiso" action="" class="form-neon" autocomplete="off">
+            <fieldset>
+                <legend><i class="far fa-address-card"></i> &nbsp; Información de Permiso</legend>
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Combo Box para Módulo -->
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="modulo_agregar">Módulo</label>
+                                <select id="modulo_agregar" name="modulo" class="form-control" required>
+                                    <!-- Opciones dinámicas -->
+                                </select>
+                            </div>
+                        </div>
+    
+                        <!-- Combo Box para Tabla -->
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="tabla_agregar">Tabla</label>
+                                <select id="tabla_agregar" name="tabla" class="form-control" required>
+                                    <!-- Opciones dinámicas -->
+                                </select>
+                            </div>
+                        </div>
+    
+                        <!-- Combo Box para Perfil -->
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="perfil_agregar">Perfil</label>
+                                <select id="perfil_agregar" name="perfil" class="form-control" required>
+                                    <!-- Opciones dinámicas -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Checkboxes para Permisos -->
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="permisos">Permisos</label>
+                            <div id="permisos-container">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permiso_get_agregar" name="get">
+                                    <label class="form-check-label" for="permiso_get_agregar">GET</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permiso_post_agregar" name="post">
+                                    <label class="form-check-label" for="permiso_post_agregar">POST</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permiso_put_agregar" name="put">
+                                    <label class="form-check-label" for="permiso_put_agregar">PUT</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permiso_delete_agregar" name="delete">
+                                    <label class="form-check-label" for="permiso_delete_agregar">DELETE</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <br><br><br>
+            <p class="text-center" style="margin-top: 40px;">
+                <button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
+                &nbsp; &nbsp;
+                <button type="button" class="btn btn-raised btn-info btn-sm" onclick="AgregarPermiso()">
+                    <i class="far fa-save"></i> &nbsp; GUARDAR
+                </button>
+            </p>
+        </form>
+    </div>
+    
+    
+
+</section>

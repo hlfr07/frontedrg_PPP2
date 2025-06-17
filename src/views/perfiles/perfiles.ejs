@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Nuevo Perfil</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="/src/assets/css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="/src/assets/css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file-->
+	<script src="/src/assets/js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="/src/assets/css/style.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+</head>
+<body>
+	<!-- Main container -->
+	<main class="full-box main-container">
+		<!-- Nav lateral -->
+		<%- include('../../components/navlateral.ejs') %>
+
+		<!-- Page content -->
+        <%- include('../../components/contentperfiles.ejs') %>
+		
+	</main>
+	
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="/src/assets/js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="/src/assets/js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="/src/assets/js/bootstrap.min.js" ></script>
+	
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="/src/assets/js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+	<script src="/src/assets/js/main.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+	<script>
+		async function createperfil() {
+			// Obtén el token desde la plantilla (asegúrate de que esté disponible)
+			const token = "<%- token %>";
+			const apiurl = "<%- apiurl %>";
+	
+			// Configura una instancia de Axios con el token
+			const api = axios.create({
+			  baseURL: apiurl,
+			  headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			  },
+			});
+			
+			// Obtén los datos del formulario
+			const perfilesData = {
+			  perfil: document.getElementById("perfil_nombre").value.trim(),
+			};
+			// Validar que todos los campos estén completos
+			for (const [key, value] of Object.entries(perfilesData)) {
+				if (!value) {
+				  alert(`El campo ${key} es obligatorio.`);
+				  return;
+				}
+			  }
+			try {
+				// Crear el usuario
+				const perfilResponse = await api.post("/perfiles", perfilesData);	  
+				// Mostrar un mensaje de éxito con SweetAlert
+				Swal.fire({
+				  icon: "success",
+				  title: "Usuarios creado con exito",
+				  text: "Usuarios creado y perfil asignado.",
+				  timer: 2000, // Cambia la duración del mensaje si lo deseas
+				  showConfirmButton: false, // Oculta el botón "OK"
+				});
+	  
+				// Redirigir al usuario después de 2 segundos (2000 ms)
+				setTimeout(function () {
+				  window.location.href = "/perfiles";
+				}, 1000);
+			  } catch (error) {
+				console.error(
+				  "Error:",
+				  error.response ? error.response.data : error.message
+				);
+				alert("Hubo un problema al crear el usuario o asignar los perfiles.");
+			  }
+		}
+
+		
+	</script>
+</body>
+</html>

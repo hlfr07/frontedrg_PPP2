@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="/path/to/your/styles.css">
+</head>
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <%- include('../../components/navlateral.ejs') %>
+
+            <!-- Page content -->
+
+            <section class="full-box page-content">
+                <%- include('../../components/aside.ejs') %>
+    
+    <div class="container-fluid">
+                        <ul class="full-box list-unstyled page-nav-tabs">
+                            <li>
+                                <a class="<%= ruta === '/servicios' ? 'active' : '' %>" href="/clientes"><i
+                                        class="fas fa-plus fa-fw"></i> &nbsp; CLIENTES</a>
+                            </li>
+                            <li>
+                                <a class="<%= ruta === '/listaservicios' ? 'active' : '' %>" href="/listaclientes"><i
+                                        class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CLIENTES</a>
+                            </li>
+                        </ul>
+                    </div>
+                <h1>Lista de Clientes</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (clientes && clientes.length > 0) { %>
+                <% clientes.forEach(cliente => { %>
+                    <tr>
+                        <td><%= cliente.id %></td>
+                        <td><%= cliente.nombre %></td>
+                        <td><%= cliente.email %></td>
+                        <td><%= cliente.telefono %></td>
+                        <td>
+                            <a href="/clientes/editar/<%= cliente.id %>">Editar</a>
+                            <a href="/clientes/eliminar/<%= cliente.id %>" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5">No hay clientes disponibles.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

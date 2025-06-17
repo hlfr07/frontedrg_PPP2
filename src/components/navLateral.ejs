@@ -1,0 +1,97 @@
+<section class="full-box nav-lateral">
+    <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+    <div class="full-box nav-lateral-content">
+        <figure class="full-box nav-lateral-avatar">
+            <i class="far fa-times-circle show-nav-lateral"></i>
+            <img src="/src/assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+            <figcaption class="roboto-medium text-center">
+                <%- nombre %> <%- apellido %> <br><small class="roboto-condensed-light"><% perfiles.forEach(perfil => { %>
+                    <li><%= perfil.perfil %></li>
+                <% }); %></small>
+            </figcaption>
+            
+        </figure>
+        <div class="full-box nav-lateral-bar"></div>
+        <nav class="full-box nav-lateral-menu">
+            <ul>
+                <li>
+                    <a href="/principal"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+                </li>
+
+            
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-key fa-fw"></i> &nbsp; Seguridad <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="/usuarios"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; Usuario </a>
+                        </li>
+                        <li>
+                            <a href="/perfiles"><i class="fas fa-user fa-fw"></i> &nbsp; Perfiles</a>
+                        </li>
+                        <li>
+                            <a href="/permisos"><i class="fas fa-lock fa-fw"></i> &nbsp; Permisos</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-hdd fa-fw"></i> &nbsp; Almacenamiento <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="/clientes"><i class="fas fa-plus fa-fw"></i> &nbsp; Clientes</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Actividades <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="/actividades"><i class="fas fa-calendar-alt fa-fw"></i> &nbsp; Actividades</a>
+                        </li>
+                        <li>
+                            <a href="/listaactividades"><i class="fas fa-tasks fa-fw"></i> &nbsp; Lista de actividades</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-concierge-bell fa-fw"></i> &nbsp; Servicios <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="/servicios"><i class="fas fa-tools fa-fw"></i> &nbsp; Servicios</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-file-alt fa-fw"></i> &nbsp; Reporte <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="reportecorte.html"><i class="fas fa-bolt fa-fw"></i> &nbsp; Reporte  Cortes </a>
+                        </li>
+                        <li>
+                            <a href="reporteinstalacion.html"><i class="fas fa-user fa-fw"></i> &nbsp; Reporte Instalaciones</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="#" class="nav-btn-submenu"><i class="fas fa-chart-line fa-fw"></i> &nbsp; Monitoreo <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li>
+                            <a href="monitoreo.html"><i class="fas fa-file-alt fa-fw"></i> &nbsp; Resumen </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="company.html"><i class="fas fa-store-alt fa-fw"></i> &nbsp; Empresa</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>

@@ -1,0 +1,170 @@
+<section class="full-box page-content">
+  <%- include('aside.ejs') %>
+
+  <!-- Page header -->
+  <div class="full-box page-header">
+    <h3 class="text-left centered">
+      <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO USUARIO
+    </h3>
+    <p class="text-justify"></p>
+  </div>
+  <%- include('pageheader.ejs') %>
+
+  <!-- Content -->
+  <div class="container-fluid">
+    <form action="" class="form-neon" autocomplete="off">
+      <fieldset>
+        <legend>
+          <i class="far fa-address-card"></i> &nbsp; Información personal
+        </legend>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="usuario_dni" class="bmd-label-floating">Dni</label>
+                <input
+                  type="text"
+                  pattern="[0-9]{1,8}"
+                  class="form-control"
+                  name="usuario_dni"
+                  id="usuario_dni"
+                  maxlength="8"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                required/>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="usuario_nombre" class="bmd-label-floating"
+                  >Nombres</label
+                >
+                <input
+                  type="text"
+                  pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}"
+                  class="form-control"
+                  name="usuario_nombre"
+                  id="usuario_nombre"
+                  maxlength="35"
+                  required/>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="usuario_apellido" class="bmd-label-floating"
+                  >Apellidos</label
+                >
+                <input
+                  type="text"
+                  pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}"
+                  class="form-control"
+                  name="usuario_apellido"
+                  id="usuario_apellido"
+                  maxlength="35"
+                  required/>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="usuario_email" class="bmd-label-floating"
+                  >Correo Electrónico</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  name="usuario_email"
+                  id="usuario_email"
+                  maxlength="35"
+                  required/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <br /><br /><br />
+      <fieldset>
+        <legend>
+          <i class="fas fa-user-lock"></i> &nbsp; Información de la cuenta
+        </legend>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="usuario_usuario" class="bmd-label-floating"
+                  >Nombre de usuario</label
+                >
+                <input
+                  type="text"
+                  pattern="[a-zA-Z0-9]{1,35}"
+                  class="form-control"
+                  name="usuario_usuario"
+                  id="usuario_usuario"
+                  maxlength="35"
+                  required/>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for="usuario_password" class="bmd-label-floating">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,20}$"
+                      class="form-control"
+                      name="usuario_password"
+                      id="usuario_password"
+                      minlength="6"
+                      maxlength="20"
+                      oninput="validatePassword()"
+                      required/>
+                    <div class="input-group-append">
+                      <button 
+                        type="button" 
+                        class="btn btn-outline-secondary" 
+                        onclick="togglePasswordVisibility()"
+                        tabindex="-1"
+                      >
+                        <i id="togglePasswordIcon" class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <small id="passwordError" class="form-text text-danger" style="display: none;">
+                    La contraseña debe tener al menos 6 caracteres, incluyendo mayúsculas, minúsculas y números.
+                  </small>
+                </div>
+              </div>
+          </div>
+        </div>
+      </fieldset>
+      <br/> <br /> <br />
+      <fieldset>
+        <legend><i class="fas fa-medal"></i> &nbsp; Perfil</legend>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <% if (perfilespost && perfilespost.length > 0) { %>
+                <% perfilespost.forEach(function(perfil) { %>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="profile" value="<%= perfil.id %>" id="perfil_<%= perfil.id %>" required>
+                    <label class="form-check-label" for="perfil_<%= perfil.id %>"><%= perfil.perfil %></label>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <p>No hay perfiles disponibles.</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      
+      <p class="text-center" style="margin-top: 40px">
+        <button type="button" class="btn btn-raised btn-secondary btn-sm" onclick="limpiarFormulario()">
+          <i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR
+        </button>
+        &nbsp; &nbsp;
+        <button type="button" class="btn btn-raised btn-info btn-sm" onclick="createUser()" id="guardar-btn" >
+          <i class="far fa-save"></i> &nbsp; GUARDAR
+        </button>
+      </p>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista de Restricciones</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="/src/assets/css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="/src/assets/css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file-->
+	<script src="/src/assets/js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="/src/assets/css/style.css">
+
+
+</head>
+<body>
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
+		<!-- Nav lateral -->
+		<%- include('../../components/navlateral.ejs') %>
+
+
+		<!-- Page content -->
+		<%- include('../../components/contentPermisoslista.ejs') %>
+
+		<div
+  class="modal fade"
+  id="editarModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editarModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel">Editar Permiso</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" class="form-neon" autocomplete="off">
+          <input type="hidden" id="permiso_id_modal" name="permiso_id" />
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for="modulo">Módulo</label>
+                  <select id="modulo_modal" name="modulo" class="form-control" required>
+                    <!-- Opciones cargadas dinámicamente -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for="tabla">Tabla</label>
+                  <select id="tabla_modal" name="tabla" class="form-control" required>
+                    <!-- Opciones cargadas dinámicamente -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label for="perfil">Perfil</label>
+                  <select id="perfil_modal" name="perfil" class="form-control" required>
+                    <!-- Opciones cargadas dinámicamente -->
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="permisos">Permisos</label>
+                  <div id="permisos-container">
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="permiso_get"
+                        name="get"
+                      />
+                      <label class="form-check-label" for="permiso_get">GET</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="permiso_post"
+                        name="post"
+                      />
+                      <label class="form-check-label" for="permiso_post">POST</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="permiso_put"
+                        name="put"
+                      />
+                      <label class="form-check-label" for="permiso_put">PATCH</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="permiso_delete"
+                        name="delete"
+                      />
+                      <label class="form-check-label" for="permiso_delete">DELETE</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button
+                type="button"
+                onclick="ActualizarDatos()"
+                class="btn btn-primary"
+              >
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+	</main>
+
+	
+
+<!-- consumir del frontend desde mi backend los datos -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+		<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="/src/assets/js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="/src/assets/js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="/src/assets/js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="/src/assets/js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+	<script src="/src/assets/js/main.js" ></script>
+
+	<script>
+		async function apiRequest(
+        method,
+        endpoint,
+        data = {},
+        token = "<%- token %>",
+        apiurl = "<%- apiurl %>"
+      ) {
+        const baseUrl = apiurl;
+
+        try {
+          const response = await axios({
+            method: method,
+            url: `${baseUrl}${endpoint}`,
+            data: method !== "GET" ? data : undefined,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          return response.data; // Retornar los datos de la respuesta
+        } catch (error) {
+          console.error(
+            `Error en ${method} ${endpoint}:`,
+            error.response?.data || error.message
+          );
+          throw error.response?.data || error; // Re-lanzar el error para manejarlo en las funciones específicas
+        }
+      }
+
+	  // Función para cargar los datos del usuario en el modal
+// Función para cargar los datos del permiso en el modal
+// Función para cargar los datos del permiso en el modal
+async function cargarDatosPermiso(id, modulo, tabla, perfil, get, post, put, deletePermiso) {
+	// Cargar datos básicos
+	document.getElementById("permiso_id_modal").value = id;
+	let modulospost = <%- JSON.stringify(modulospost) %>;
+  let tablapost = <%- JSON.stringify(tablapost) %>;
+  let perfilespost = <%- JSON.stringify(perfilespost) %>;
+	// Cargar opciones de los combos y seleccionar la opción correspondiente
+	cargarOpcionesCombo("modulo_modal", modulo, modulospost, "id", "modulo");
+	cargarOpcionesCombo("tabla_modal", tabla, tablapost, "id", "tabla");
+	cargarOpcionesCombo("perfil_modal", perfil, perfilespost, "id", "perfil");
+  
+	// Cargar los permisos en los checkboxes
+	document.getElementById("permiso_get").checked = get;
+	document.getElementById("permiso_post").checked = post;
+	document.getElementById("permiso_put").checked = put;
+	document.getElementById("permiso_delete").checked = deletePermiso;
+
+
+  }
+  
+  // Función para cargar las opciones de un combo box
+  function cargarOpcionesCombo(elementId, selectedId, data, idField, nameField) {
+	const selectElement = document.getElementById(elementId);
+	selectElement.innerHTML = ""; // Limpiar las opciones
+  
+	// Iterar sobre los datos proporcionados y llenar el combo box
+	data.forEach((item) => {
+	  const option = document.createElement("option");
+	  option.value = item[idField]; // Usar el campo que corresponde al ID
+	  option.textContent = item[nameField] || "N/A"; // Usar el campo que corresponde al nombre
+	  if (item[idField] == selectedId) {
+		option.selected = true;
+	  }
+	  selectElement.appendChild(option);
+	});
+  }
+  
+  async function ActualizarDatos() {
+	// Obtener los valores seleccionados del formulario
+	const idPermiso = document.getElementById("permiso_id_modal").value;
+	const idModulo = document.getElementById("modulo_modal").value;
+	const idTabla = document.getElementById("tabla_modal").value;
+	const idPerfil = document.getElementById("perfil_modal").value;
+  
+	// Obtener los valores de los checkboxes
+	const permisoGet = document.getElementById("permiso_get").checked ? "true" : "false";
+	const permisoPost = document.getElementById("permiso_post").checked ? "true" : "false";
+	const permisoPut = document.getElementById("permiso_put").checked ? "true" : "false";
+	const permisoDelete = document.getElementById("permiso_delete").checked ? "true" : "false";
+  
+	// Crear el objeto para enviar al backend
+	const permisoData = {
+	  id_modulo: idModulo,
+	  id_tabla: idTabla,
+	  id_perfil: idPerfil,
+	  get: permisoGet,
+	  post: permisoPost,
+	  put: permisoPut,
+	  delete: permisoDelete,
+	};
+  
+	try {
+	  // Usar apiRequest para actualizar el permiso por ID
+	  const endpoint = `/permisos/${idPermiso}`; // Endpoint con el ID del permiso
+	  const response = await apiRequest("PATCH", endpoint, permisoData);
+		
+	  // Manejar la respuesta del backend
+	  Swal.fire({
+		title: "Actualizado",
+		text: "Los permisos se actualizaron correctamente.",
+		icon: "success",
+		timer: 2000
+	}).then(() => {
+		window.location.reload();
+	});
+	  // Aquí puedes refrescar la tabla o cerrar el modal
+	  location.reload();
+	} catch (error) {
+		console.log(permisoData);
+		Swal.fire({
+			title: "Error",
+			text: error.message || "Ocurrió un error al actualizar los datos.",
+			icon: "error"
+		});
+	}
+  }
+  
+  
+	  
+    </script>
+</body>
+</html>

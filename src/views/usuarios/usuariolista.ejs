@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>Lista usuarios</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css" />
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link
+      rel="stylesheet"
+      href="/src/assets/css/bootstrap-material-design.min.css"
+    />
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css" />
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css" />
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css" />
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+  </head>
+  <body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+      <!-- Nav lateral -->
+      <%- include('../../components/navlateral.ejs') %>
+
+      <!-- Page content -->
+      <%- include('../../components/contentListausuarios.ejs') %>
+
+      <!-- modal -->
+      <!-- Modal Editar Usuario -->
+      <div
+        class="modal fade"
+        id="editarModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="editarModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editarModalLabel">Editar Usuario</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="" class="form-neon" autocomplete="off"
+              >
+                <input type="hidden" id="usuario_id" name="usuario_id" />
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-12 col-md-4">
+                      <input
+                        type="text"
+                        id="usuario_id_modal"
+                        name="id"
+                        class="form-control"
+                        required
+                      />
+                      <div class="form-group">
+                        <label for="usuario_dni">DNI</label>
+                        <input
+                          type="text"
+                          id="usuario_dni_modal"
+                          name="dni"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="form-group">
+                        <label for="usuario_nombre">Nombre</label>
+                        <input
+                          type="text"
+                          id="usuario_nombre_modal"
+                          name="nombre"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="form-group">
+                        <label for="usuario_apellido">Apellido</label>
+                        <input
+                          type="text"
+                          id="usuario_apellido_modal"
+                          name="apellido"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label for="usuario_usuario">Usuario</label>
+                        <input
+                          type="text"
+                          id="usuario_usuario_modal"
+                          name="usuario"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label for="usuario_email">Email</label>
+                        <input
+                          type="email"
+                          id="usuario_email_modal"
+                          name="email"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="perfiles">Perfiles</label>
+                        <div id="perfiles-container">
+                          <% if (perfilespost && perfilespost.length > 0) { %>
+                          <% perfilespost.forEach(function(perfil) { %>
+                          <div class="form-check">
+                            <input
+                              type="checkbox"
+                              class="form-check-input"
+                              name="profile"
+                              value="<%= perfil.id %>"
+                              id="<%= perfil.id %>"
+                              required
+                            />
+                            <label
+                              class="form-check-label"
+                              for="perfil_<%= perfil.id %>"
+                              ><%= perfil.perfil %></label
+                            >
+                          </div>
+                          <% }) %> <% } else { %>
+                          <p>No hay perfiles disponibles.</p>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Cerrar
+                    </button>
+                    <button
+                      type="button"
+                      onclick="Actualizardatos()"
+                      class="btn btn-primary"
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("body").bootstrapMaterialDesign();
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script src="/src/assets/static/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/src/assets/static/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="/src/assets/static/js/demo/datatables-demo.js"></script>
+
+    <script>
+      // Función general para solicitudes a la API
+      async function apiRequest(
+        method,
+        endpoint,
+        data = {},
+        token = "<%- token %>",
+        apiurl = "<%- apiurl %>"
+      ) {
+        const baseUrl = apiurl;
+
+        try {
+          const response = await axios({
+            method: method,
+            url: `${baseUrl}${endpoint}`,
+            data: method !== "GET" ? data : undefined,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          return response.data; // Retornar los datos de la respuesta
+        } catch (error) {
+          console.error(
+            `Error en ${method} ${endpoint}:`,
+            error.response?.data || error.message
+          );
+          throw error.response?.data || error; // Re-lanzar el error para manejarlo en las funciones específicas
+        }
+      }
+
+
+      // jQuery para cargar los datos del usuario al modal
+      async function cargarDatosUsuario(
+        id,
+        dni,
+        nombre,
+        apellido,
+        usuario,
+        email,
+        perfiles
+      ) {
+        // Inicializar los checkboxes en false
+        document.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+          input.checked = false;
+          input.removeAttribute("data-perfil-id"); // Limpiar cualquier dato previo
+        });
+        // Cargar los datos en el formulario del modal
+        document.getElementById("usuario_id_modal").value = id;
+        document.getElementById("usuario_dni_modal").value = dni;
+        document.getElementById("usuario_nombre_modal").value = nombre;
+        document.getElementById("usuario_apellido_modal").value = apellido;
+        document.getElementById("usuario_usuario_modal").value = usuario;
+        document.getElementById("usuario_email_modal").value = email;
+
+        // Recorrer los perfiles y marcar los seleccionados
+        perfiles.forEach((perfil) => {
+          const checkbox = document.getElementById(perfil.perfil.id);
+          if (checkbox) {
+            checkbox.checked = true;
+            checkbox.setAttribute("data-perfil-id", perfil.id); // Guardar el ID de la tabla de detalle perfiles
+          }
+          console.log(
+            `Perfil ID: ${perfil.id}, Perfil Asociado ID: ${perfil.perfil.id}`
+          );
+        });
+      }
+
+
+      async function Actualizardatos() {
+		const idUsuario = document.getElementById("usuario_id_modal").value;
+		const dni = document.getElementById("usuario_dni_modal").value;
+		const nombre = document.getElementById("usuario_nombre_modal").value;
+		const apellido = document.getElementById("usuario_apellido_modal").value;
+		const usuario = document.getElementById("usuario_usuario_modal").value;
+		const email = document.getElementById("usuario_email_modal").value;
+	
+		// Obtener los detalles de perfiles para validar
+		let detallesPerfiles = <%- JSON.stringify(detallesperfiles) %>; // Pasar la lista desde EJS al script como JSON
+		
+		// Obtener los perfiles seleccionados actualmente
+		const perfilesSeleccionados = Array.from(
+			document.querySelectorAll('input[name="profile"]:checked')
+		).map((checkbox) => ({
+			idPerfil: checkbox.value,
+			detallePerfilId: checkbox.getAttribute("data-perfil-id"), // Si existe, ya está asociado
+		}));
+	
+		// Obtener los perfiles deseleccionados
+		const perfilesDeseleccionados = Array.from(
+			document.querySelectorAll('input[name="profile"]:not(:checked)')
+		).filter((checkbox) => checkbox.hasAttribute("data-perfil-id"))
+			.map((checkbox) => ({
+				idPerfil: checkbox.value,
+				detallePerfilId: checkbox.getAttribute("data-perfil-id"),
+			}));
+	
+		try {
+			// Actualizar usuario
+			await apiRequest("PATCH", `/usuarios/${idUsuario}`, { dni, nombre, apellido, usuario, email });
+	
+			// Actualizar perfiles deseleccionados (estado a false)
+			for (const perfil of perfilesDeseleccionados) {
+				await apiRequest("PATCH", `/detalle-perfiles/${perfil.detallePerfilId}`, {
+					id_perfil: perfil.idPerfil,
+					id_usuario: idUsuario,
+					estado: "false"
+				});
+			}
+	
+			// Procesar perfiles seleccionados (PATCH si existe, POST si no existe)
+			for (const perfil of perfilesSeleccionados) {
+				// Verificar si el detalle perfil ya existe para este usuario y está en estado false
+				const detalleExistente = detallesPerfiles.filter(detalle =>
+					detalle.usuario.id == idUsuario &&
+					detalle.perfil.id == perfil.idPerfil
+					
+				);
+				if (Array.isArray(detalleExistente) && detalleExistente.length > 0) {
+					// Si existe y está en estado false, actualizar a true
+					await apiRequest("PATCH", `/detalle-perfiles/${detalleExistente[0].id}`, {
+						id_perfil: perfil.idPerfil,
+						id_usuario: idUsuario,
+						estado: "true"
+					});
+					console.log(`Perfil ${perfil.idPerfil} reactivado para el usuario ${idUsuario}.`);
+					
+				} else if (detalleExistente.length === 0) {
+					// Si no existe, crear uno nuevo
+					await apiRequest("POST", "/detalle-perfiles", {
+						id_perfil: perfil.idPerfil,
+						id_usuario: idUsuario
+					});
+					console.log(`Nuevo perfil ${perfil.idPerfil} asignado al usuario ${idUsuario}.`);
+				}
+			}
+	
+			Swal.fire({
+				title: "Actualizado",
+				text: "El usuario y sus perfiles se actualizaron correctamente.",
+				icon: "success",
+				timer: 2000
+			}).then(() => {
+				window.location.reload();
+			});
+	
+		} catch (error) {
+			
+			Swal.fire({
+				title: "Error",
+				text: error.message || "Ocurrió un error al actualizar los datos.",
+				icon: "error"
+			});
+		}
+	}
+	
+
+      async function eliminarusuario(id) {
+		const result = await Swal.fire({
+			title: "¿Estás seguro?",
+			text: "No podrás revertir esta acción.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Sí, eliminar",
+			cancelButtonText: "Cancelar"
+		});
+	
+		if (result.isConfirmed) {
+			try {
+				await apiRequest("DELETE", `/usuarios/${id}`);
+	
+				Swal.fire({
+					title: "Eliminado",
+					text: "El usuario ha sido eliminado con éxito.",
+					icon: "success",
+					timer: 2000
+				}).then(() => {
+					window.location.reload();
+				});
+			} catch (error) {
+				Swal.fire({
+					title: "Error",
+					text: error.message || "Ocurrió un error al eliminar el usuario.",
+					icon: "error"
+				});
+			}
+		}
+	}
+	
+	
+    </script>
+  </body>
+</html>

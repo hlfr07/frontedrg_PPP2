@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Recuperar Cuenta</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="/src/assets/css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="/src/assets/css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css">
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="/src/assets/css/style.css">
+
+	<style>
+		body {
+			background: url(imagenes/Portada.png);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+		.login-container {
+			padding: 2rem;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			
+		}
+		.logo {
+			width: 150px;
+			margin-bottom: 1rem;
+		}
+		.form-group {
+			margin-bottom: 1.5rem;
+		}
+		.btn-login {
+			display: block;
+			width: 100%;
+			padding: 0.75rem;
+			background: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			text-align: center;
+			margin-bottom: 1rem;
+			transition: background 0.3s;
+		}
+		.btn-login:hover {
+			background: #0056b3;
+		}
+		.forgot-password {
+			display: block;
+			text-align: center;
+			color: #007bff;
+			text-decoration: none;
+			margin-top: 1rem;
+		}
+		.forgot-password:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="login-content">
+			<p class="text-center">
+				<h3>Recuperar Cuenta</h3>
+				<img class="logo" src="/src/assets/img/LogoPrincipal2.png" alt="Logo">
+			</p>
+			<form>
+				<div class="form-group">
+					<label for="UserName" class="bmd-label-floating"><i class="fas fa-user-secret"></i> &nbsp; Ingrese su Correo Personal</label>
+					<input type="text" class="form-control" id="UserName" name="usuario" pattern="[a-zA-Z0-9]{1,35}" maxlength="35" required>
+				</div>
+				<a href="correogmail.html" class="btn-login text-center">Enviar</a>
+			</form>
+		</div>
+	</div>
+
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+	<!-- popper -->
+	<script src="/src/assets/js/popper.min.js"></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="/src/assets/js/bootstrap.min.js"></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/src/assets/js/main.js"></script>
+</body>
+</html>

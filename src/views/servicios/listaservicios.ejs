@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Nuevo servicio</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css">
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css">
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css">
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css">
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+</head>
+
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <%- include('../../components/navlateral.ejs') %>
+
+            <!-- Page content -->
+            <section class="full-box page-content">
+                <%- include('../../components/aside.ejs') %>
+
+                    <div class="container-fluid">
+                        <ul class="full-box list-unstyled page-nav-tabs">
+                            <li>
+                                <a class="<%= ruta === '/servicios' ? 'active' : '' %>" href="/servicios"><i
+                                        class="fas fa-plus fa-fw"></i> &nbsp; NUEVO SERVICIO</a>
+                            </li>
+                            <li>
+                                <a class="<%= ruta === '/listaservicios' ? 'active' : '' %>" href="/listaservicios"><i
+                                        class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE SERVICIOS</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Page header -->
+                    <div class="full-box page-header">
+                        <h3 class="text-left">
+                            <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE SERVICIOS
+                        </h3>
+                        <p class="text-justify">
+                        </p>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="container-fluid">
+                        <div class="table-responsive">
+                            <h3>Tabla de servicios</h3>
+                            <table class="table table-dark table-sm" id="dataTable">
+                                <thead>
+                                    <tr class="text-center roboto-medium">
+                                        <th hidden>id</th>
+                                        <th>SERVICIO</th>
+                                        <th>CAMPOS</th>
+                                        <th>ACTUALIZAR</th>
+                                        <th>ELIMINAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% servicios.forEach((servicio, index)=> { %>
+                                        <tr class="text-center">
+                                            <td hidden>
+                                                <%= servicio.id %>
+                                            </td>
+                                            <td>
+                                                <%= servicio.servicio || "N/A" %>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success" data-toggle="modal"
+                                                    data-target="#camposModal"
+                                                    onclick="cargarcampos(<%= servicio.id %>, '<%= servicio.servicio %>')">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success" data-toggle="modal"
+                                                    data-target="#editarModal"
+                                                    onclick="cargarDatosServicio('<%= servicio.id %>', '<%= servicio.servicio %>')">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="eliminarServicio('<%= servicio.id %>')"
+                                                    class="btn btn-warning">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="dataContainer">
+                    </div>
+
+            </section>
+            <!-- Modal para actualizar -->
+            <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarModalLabel">Editar servicio</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="form-neon" autocomplete="off">
+                                <input type="hidden" id="servicio_id" name="servicio_id" />
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label for="servicio_servicio">Servicio</label>
+                                                <input type="text" id="servicio_servicio_modal" name="servicio"
+                                                    class="form-control" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Cerrar
+                                        </button>
+                                        <button type="button" onclick="Actualizardatos()" class="btn btn-primary">
+                                            Guardar Cambios
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL PARA VER CAMPOS DE CADA SERVICIO-->
+            <div class="modal fade" id="camposModal" tabindex="-1" role="dialog" aria-labelledby="camposModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="camposModalLabel">Campos del servicio <input id="nameservicio"
+                                    style="border: 0px; background: none;" type="text" value="la fe" disabled></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="form-neon" autocomplete="off">
+                                <input type="text" id="id_servicio" name="id_servicio" hidden />
+                                <div class="container-fluid">
+                                    <button type="button" class="btn btn-primary mb-3" onclick="agregarCampo()">
+                                        <i class="fas fa-plus"></i> Agregar Campo
+                                    </button>
+                                    <table class="table table-dark table-sm" id="dataTable">
+                                        <thead>
+                                            <tr class="text-center roboto-medium">
+                                                <th hidden>ID</th>
+                                                <th>Campo</th>
+                                                <th>Editar</th>
+                                                <th>Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Se llenará dinámicamente -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        Cerrar
+                                    </button>
+                                    <button type="button" id="guardarBtn" onclick="guardarCampos()"
+                                        class="btn btn-primary">
+                                        <span id="btnText">Guardar Cambios</span>
+                                        <span id="loadingSpinner" class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true" style="display:none;"></span>
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+    </main>
+
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
+    <script src="/src/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        const token = "<%- token %>";
+        const apiurl = "<%- apiurl %>";
+
+        function cargarcampos(idServicio, nombreServicio) {
+            //ponemos valor al imput de id_servicio
+            document.getElementById('id_servicio').value = idServicio;
+            // Muestra el nombre del servicio en el modal
+            document.getElementById('nameservicio').value = nombreServicio;
+
+            // Limpia el contenido actual del modal
+            const tbody = document.querySelector('#camposModal table tbody');
+            tbody.innerHTML = '';
+            const variable = '<%- JSON.stringify(campos) %>';
+            const campos = JSON.parse(variable);
+
+            camposEliminados = []; // Limpia los campos eliminados
+
+            // Filtra los campos según el servicio seleccionado
+            const camposFiltrados = campos.filter(campo => campo.servicio.id === idServicio);
+
+            // Genera las filas de la tabla
+            camposFiltrados.forEach(campo => {
+                const tr = document.createElement('tr');
+                tr.classList.add('text-center');
+
+                // Añadimos la columna "Tipo" con un select
+                const selectTipo = `
+                    <select class="form-control" disabled>
+                        <option value="texto" ${campo.tipo === 'texto' ? 'selected' : ''}>Texto</option>
+                        <option value="textarea" ${campo.tipo === 'textarea' ? 'selected' : ''}>Texto Area</option>
+                        <option value="numero" ${campo.tipo === 'numero' ? 'selected' : ''}>Número</option>
+                    </select>
+                `;
+
+                tr.innerHTML = `
+                    <td hidden><input type="text" value="${campo.id}" readonly></td>
+                    <td><input type="text" value="${campo.nombrecampo}" readonly></td>
+                    <td>${selectTipo}</td>  <!-- Nueva columna "Tipo" -->
+                    <td>
+                        <button type="button" class="btn btn-success" onclick="editarcampo(${campo.id})">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning" onclick="quitarCampo(this)">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function agregarCampo() {
+            // limpiamos campos eliminados
+            const tbody = document.querySelector('#camposModal table tbody');
+
+            const tr = document.createElement('tr');
+            tr.classList.add('text-center', 'nuevo-campo');
+
+            // Creamos una fila con un campo nuevo y un select para tipo
+            const selectTipoNuevo = `
+                <select class="form-control">
+                    <option value="texto">Texto</option>
+                    <option value="textarea">Texto Area</option>
+                    <option value="numero">Número</option>
+                </select>
+            `;
+
+            tr.innerHTML = `
+                <td hidden><input type="text" value="" placeholder="ID" readonly></td>
+                <td><input type="text" placeholder="Nombre del Campo"></td>
+                <td>${selectTipoNuevo}</td>  <!-- Nueva columna "Tipo" -->
+                <td>
+                    <button type="button" class="btn" onclick="editarcampo(null)" disabled>
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="quitarCampo(this)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+        }
+
+        let camposEliminados = []; // Arreglo global para almacenar campos eliminados
+
+        function quitarCampo(button) {
+            //mostramos una alerta de confirmación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Elimina la fila de la tabla
+                    const row = button.closest('tr');
+                    const idCampo = row.querySelector('input').value; // Obtén el ID del campo eliminado
+
+                    // Si el campo tiene un ID (no es nuevo), lo agregamos a camposEliminados
+                    if (idCampo) {
+                        const nombreCampo = row.querySelectorAll('input')[1].value; // Obtener el nombre del campo
+                        camposEliminados.push({ id: idCampo, nombrecampo: nombreCampo });
+                    }
+
+                    row.remove(); // Elimina la fila de la tabla
+                }
+            });
+        }
+
+
+        async function guardarCampos() {
+            // Obtener el botón y el texto del botón
+            const btn = document.getElementById('guardarBtn');
+            const btnText = document.getElementById('btnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            // Mostrar el spinner y ocultar el texto del botón
+            btnText.style.display = 'none';
+            loadingSpinner.style.display = 'inline-block';
+
+
+            const tbody = document.querySelector('#camposModal table tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const campos = rows.map(row => {
+                const inputs = row.querySelectorAll('input');
+                const selectTipo = row.querySelector('select').value;
+
+                return {
+                    id: inputs[0].value || null,
+                    nombrecampo: inputs[1].value,
+                    tipo: selectTipo,
+                    id_servicio: document.getElementById('id_servicio').value
+                };
+            });
+
+            // Filtrar los campos nuevos y los actualizados
+            const camposNuevos = campos.filter(campo => campo.id === null);
+            const camposActualizados = campos.filter(campo => campo.id !== null);
+            // Limpiar el id de los campos nuevos
+            camposNuevos.forEach(campo => {
+                if (campo.id === null) {
+                    delete campo.id;
+                }
+            });
+
+            // Limpiar el nombrecampo de los campos eliminados
+            camposEliminados.forEach(campo => {
+                delete campo.nombrecampo;
+            });
+
+            // Estados para cada tipo de operación
+            let estadosRespuestapost = false;
+            let estadosRespuestapatch = false;
+            let estadosRespuestadelete = false;
+
+            // Procesar campos nuevos
+            if (camposNuevos.length !== 0) {
+                try {
+                    const responsePost = await axios.post(`${apiurl}/servicio-campos`, { items: camposNuevos }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    console.log('Campos nuevos guardados:', responsePost);
+                    estadosRespuestapost = true;
+                } catch (error) {
+                    console.error('Error al procesar campos nuevos:', error);
+                    estadosRespuestapost = false;
+                }
+            } else {
+                estadosRespuestapost = true; // No hay campos nuevos, pero no hay error
+            }
+
+            // Procesar campos actualizados
+            if (camposActualizados.length !== 0) {
+                try {
+                    const responsePatch = await axios.patch(`${apiurl}/servicio-campos`, { items: camposActualizados }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    console.log('Campos actualizados guardados:', responsePatch);
+                    estadosRespuestapatch = true;
+                } catch (error) {
+                    console.error('Error al procesar campos actualizados:', error);
+                    estadosRespuestapatch = false;
+                }
+            } else {
+                estadosRespuestapatch = true; // No hay campos actualizados, pero no hay error
+            }
+
+            // Procesar campos eliminados
+            if (camposEliminados.length !== 0) {
+                try {
+                    const responseDelete = await axios.delete(`${apiurl}/servicio-campos`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        data: { items: camposEliminados }
+                    });
+                    console.log('Campos eliminados guardados:', responseDelete);
+                    estadosRespuestadelete = true;
+                } catch (error) {
+                    console.error('Error al procesar campos eliminados:', error);
+                    estadosRespuestadelete = false;
+                }
+            } else {
+                estadosRespuestadelete = true; // No hay campos eliminados, pero no hay error
+            }
+
+            // Mostrar el estado final de cada operación
+            console.log('Estados de las respuestas:', estadosRespuestapost, estadosRespuestapatch, estadosRespuestadelete);
+
+            // Comprobamos los estados para mostrar la alerta correspondiente
+            if (estadosRespuestapost && estadosRespuestapatch && estadosRespuestadelete) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Todo ha ido bien!',
+                    text: 'Todos los campos fueron procesados correctamente.',
+                    timer: 2000, // Tiempo en milisegundos (2 segundos)
+                    showConfirmButton: false,
+                    timerProgressBar: true, // Mostrar la barra de progreso
+                    willClose: () => {
+                        location.reload(); // Recargar la página después de 2 segundos
+                    }
+                });
+            } else if (!estadosRespuestapost && !estadosRespuestapatch && !estadosRespuestadelete) {
+                // En caso de error, ocultar el spinner y mostrar el texto del botón nuevamente
+                loadingSpinner.style.display = 'none';
+                btnText.style.display = 'inline';
+
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'Ningún campo fue procesado correctamente.',
+                });
+            } else {
+                let mensajeWarning = 'Advertencia: ';
+
+                if (!estadosRespuestapost) {
+                    mensajeWarning += 'Error al procesar campos nuevos. ';
+                }
+                if (!estadosRespuestapatch) {
+                    mensajeWarning += 'Error al procesar campos actualizados. ';
+                }
+                if (!estadosRespuestadelete) {
+                    mensajeWarning += 'Error al procesar campos eliminados. ';
+                }
+
+                const mensajeWarningfinal = `${mensajeWarning} Se procederá a recargar la página para que pueda verificar los cambios restantes.`;
+
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Advertencia',
+                    text: mensajeWarningfinal.trim(),
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Recargar la página cuando el usuario haga clic en "OK"
+                        location.reload();
+                    }
+                });
+            }
+        }
+
+
+
+        function editarcampo(campoId) {
+            // Localiza todas las filas dentro del cuerpo de la tabla
+            const rows = document.querySelectorAll('#camposModal table tbody tr');
+
+            // Configura todos los campos como readonly
+            rows.forEach(row => {
+                const inputCampo = row.querySelector('td:nth-child(2) input');
+                const selectTipo = row.querySelector('td:nth-child(3) select');
+                if (inputCampo) inputCampo.setAttribute('readonly', true); // Asegura que todos estén readonly
+                if (selectTipo) selectTipo.setAttribute('disabled', true); // Desactiva el select
+            });
+
+            // Ahora habilita el campo que se va a editar
+            rows.forEach(row => {
+                // Verifica si la fila contiene el ID especificado
+                const inputId = row.querySelector('td input:first-child');
+                if (inputId && inputId.value == campoId) {
+                    // Localiza el segundo input (el campo a editar)
+                    const inputCampo = row.querySelector('td:nth-child(2) input');
+                    const selectTipo = row.querySelector('td:nth-child(3) select');
+                    if (inputCampo) {
+                        inputCampo.removeAttribute('readonly'); // Quita el atributo readonly
+                        inputCampo.focus(); // Opcional: establece el foco en el campo
+                    }
+                    if (selectTipo) {
+                        selectTipo.removeAttribute('disabled'); // Activa el select
+                    }
+                }
+            });
+        }
+
+        function cargarDatosServicio(id, servicio) {
+            document.getElementById('servicio_id').value = id;
+            document.getElementById('servicio_servicio_modal').value = servicio;
+        }
+
+        function Actualizardatos() {
+            const servicio_id = document.getElementById('servicio_id').value;
+            const servicio = document.getElementById('servicio_servicio_modal').value;
+
+            axios.patch(`${apiurl}/servicios/${servicio_id}`, {
+                servicio: servicio
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => {
+                console.log(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Correcto!',
+                    text: 'Servicio actualizado correctamente.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        location.reload();
+                    }
+                });
+            }).catch((error) => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'No se pudo actualizar el servicio.',
+                });
+            });
+        }
+
+        function eliminarServicio(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`${apiurl}/servicios/${id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((response) => {
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Correcto!',
+                            text: 'Servicio eliminado correctamente.',
+                            timer: 2000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                location.reload();
+                            }
+                        });
+                    }).catch((error) => {
+                        console.error(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'No se pudo eliminar el servicio.',
+                        });
+                    });
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

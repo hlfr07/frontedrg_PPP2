@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>Nuevo usuario</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css" />
+
+    <!-- Font Awesome V5.15.4 (última versión gratuita compatible) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha384-DyZ88mC6Up2uqSiy+qv+q8jtZqWgRXpAF6cT6Q25F7zNkH9U8P1FN1d4Zx4C3o1H" crossorigin="anonymous" />
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css" />
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css" />
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css" />
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css" />
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        /* Flexbox para distribuir los <li> */
+        .activity-list {
+            display: flex;
+            flex-wrap: wrap;
+            /* Permite que los elementos se muevan a la siguiente línea si no hay espacio suficiente */
+            gap: 15px;
+            /* Espacio entre los elementos */
+            list-style-type: none;
+            /* Elimina los puntos de lista */
+            padding-left: 0;
+            /* Elimina el padding de la izquierda */
+        }
+
+        /* Estilo para cada <li> */
+        .activity-list li {
+            flex: 1 1 calc(33.33% - 15px);
+            /* Cada <li> ocupa el 33.33% del ancho disponible, menos el espacio entre ellos */
+            box-sizing: border-box;
+            /* Asegura que el padding y los bordes no afecten al tamaño total */
+            padding: 15px;
+            border: 2px solid #000;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        /* Responsividad: cuando la pantalla es más pequeña, los <li> ocupan el 50% */
+        @media (max-width: 768px) {
+            .activity-list li {
+                flex: 1 1 calc(50% - 15px);
+                /* 50% del ancho */
+            }
+        }
+
+        /* Para pantallas más pequeñas, un solo elemento por fila */
+        @media (max-width: 480px) {
+            .activity-list li {
+                flex: 1 1 100%;
+                /* 100% del ancho */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <%- include('../../components/navlateral.ejs') %>
+
+            <!-- Page content -->
+
+            <section class="full-box page-content">
+                <%- include('../../components/aside.ejs') %>
+
+                    <!-- Page header -->
+                    <div class="full-box page-header">
+                        <h3 class="text-left centered">
+                            <i class="fas fa-plus fa-fw"></i> &nbsp; ACTIVIDADES
+                        </h3>
+                        <p class="text-justify"></p>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between mb-4 p-3 rounded shadow-sm"
+                            style="background-color: #f8f9fa;">
+
+                            <!-- Navegación -->
+                            <ul class="full-box list-unstyled page-nav-tabs d-flex align-items-center mb-0">
+                                <li class="me-3">
+                                    <a href="/actividades" class="text-decoration-none text-primary fw-bold">
+                                        <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVA ACTIVIDAD
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active text-decoration-none text-dark fw-bold"
+                                        style="border-bottom: 2px solid #0d6efd;">
+                                        <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ACTIVIDADES
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!-- Filtros de fecha y rápidos -->
+                            <div class="bg-white p-4 rounded shadow-sm"
+                                style="width: 500px; font-family: 'Segoe UI', sans-serif;">
+                                <!-- Bloque de fechas -->
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div class="d-flex flex-column">
+                                        <label for="fechaInicio"
+                                            class="form-label text-secondary fw-semibold mb-1">Desde:</label>
+                                        <input type="date" id="fechaInicio"
+                                            class="form-control form-control-sm border-0"
+                                            style="width: 200px; background-color: #f1f3f5;">
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <label for="fechaFin"
+                                            class="form-label text-secondary fw-semibold mb-1">Hasta:</label>
+                                        <input type="date" id="fechaFin" class="form-control form-control-sm border-0"
+                                            style="width: 200px; background-color: #f1f3f5;">
+                                    </div>
+                                </div>
+
+                                <!-- Botones de filtro rápido -->
+                                <div class="d-flex flex-wrap justify-content-between gap-2 mb-3">
+                                    <button type="button" class="btn btn-sm btn-outline-primary flex-fill"
+                                        onclick="filtroHoy()">Hoy</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary flex-fill"
+                                        onclick="filtroSemana()">Esta semana</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary flex-fill"
+                                        onclick="filtroMes()">Este mes</button>
+                                </div>
+
+                                <!-- Botón principal de acción -->
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-sm btn-primary px-4"
+                                        onclick="validarFechas()">Filtrar</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+<!-- Botón de descarga masiva con diseño elegante -->
+<div class="text-end mt-3">
+    <button type="button"
+        class="btn btn-success btn-sm px-4 py-2 d-inline-flex align-items-center gap-2 shadow rounded-pill stylish-button"
+        onclick="descargarEvidenciasMasivas()">
+        <i class="fas fa-file-archive fa-lg animate__animated animate__fadeInLeft"></i>
+        Descargar
+    </button>
+    <small class="form-text text-muted mt-2">
+        Solo se incluirán actividades ya finalizadas dentro del rango seleccionado.
+    </small>
+</div>
+
+                    <!-- SCRIPT de filtros rápidos + validación -->
+                    <script>
+                        // Formato yyyy-mm-dd para inputs tipo date
+                        function formatoFecha(fecha) {
+                            return fecha.toISOString().split('T')[0];
+                        }
+
+                        // Filtro: Hoy
+                        function filtroHoy() {
+                            const hoy = new Date();
+                            const hoyFormato = formatoFecha(hoy);
+                            document.getElementById('fechaInicio').value = hoyFormato;
+                            document.getElementById('fechaFin').value = hoyFormato;
+                        }
+
+                        // Filtro: Esta semana (desde hoy hacia 7 días atrás)
+                        function filtroSemana() {
+                            const hoy = new Date();
+                            const hace7dias = new Date();
+                            hace7dias.setDate(hoy.getDate() - 6); // 7 días incluyendo hoy
+                            document.getElementById('fechaInicio').value = formatoFecha(hace7dias);
+                            document.getElementById('fechaFin').value = formatoFecha(hoy);
+                        }
+
+                        // Filtro: Este mes (desde hoy hacia 30 días atrás)
+                        function filtroMes() {
+                            const hoy = new Date();
+                            const hace30dias = new Date();
+                            hace30dias.setDate(hoy.getDate() - 29);
+                            document.getElementById('fechaInicio').value = formatoFecha(hace30dias);
+                            document.getElementById('fechaFin').value = formatoFecha(hoy);
+                        }
+
+                        // Validación de fechas antes de aplicar filtro
+                        function validarFechas() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    const hoy = new Date().toISOString().split('T')[0];
+
+    if (!fechaInicio || !fechaFin) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Fechas incompletas',
+            text: 'Por favor, complete ambas fechas para continuar.',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if (fechaFin > hoy) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Fecha inválida',
+            text: 'La fecha "Hasta" no puede ser posterior a hoy.',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    if (fechaInicio > fechaFin) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Rango incorrecto',
+            text: 'La fecha "Desde" no puede ser posterior a la fecha "Hasta".',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Revisar'
+        });
+        return;
+    }
+
+    // ✅ Fechas válidas
+    console.log("Fechas válidas: desde", fechaInicio, "hasta", fechaFin);
+    // aplicarFiltros(fechaInicio, fechaFin); // Lógica posterior si todo es correcto
+}
+
+                        function descargarEvidenciasMasivas() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+
+    if (!fechaInicio || !fechaFin) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Fechas incompletas',
+            text: 'Por favor, selecciona ambas fechas antes de descargar.',
+            confirmButtonColor: '#007bff'
+        });
+        return;
+    }
+
+    if (fechaInicio > fechaFin) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Rango inválido',
+            text: 'La fecha de inicio no puede ser mayor que la fecha final.',
+            confirmButtonColor: '#dc3545'
+        });
+        return;
+    }
+
+    const apiurl = "<%- apiurl %>";
+    const url = `${apiurl}/rares/descargaMasiva?inicio=${fechaInicio}&fin=${fechaFin}`;
+
+    // Descarga directa
+    window.location.href = url;
+}
+                    </script>
+
+
+
+
+
+
+                    <!-- Content -->
+                    <div class="container-fluid">
+                        <form action="" class="form-neon" autocomplete="off">
+                            <fieldset>
+                                <legend style="color: rgb(0, 193, 0);">
+                                    <i class="far fa-address-card"></i> &nbsp; Actividades completadas
+                                </legend>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <ul class="activity-list">
+                                            <% evidencias.forEach(evidencia=> { %>
+                                                <li
+                                                    style="padding: 15px; border: 2px solid #000; margin-bottom: 10px; border-radius: 5px;">
+                                                    <p><strong>CONDIGO CONTRATO: </strong>
+                                                        <%= evidencia.actividad.cliente.cod_contrato %>
+                                                    </p>
+                                                    <p><strong>CLIENTE: </strong>
+                                                        <%= evidencia.actividad.cliente.nombres %>
+                                                    </p>
+                                                    <p><strong>COMENTARIO: </strong>
+                                                        <%= evidencia.comentario %>
+                                                    </p>
+                                                    <p><strong>FECHA: </strong>
+                                                        <%= evidencia.fecha %>
+                                                    </p>
+                                                    <button type="button" onclick="verinfo('<%= evidencia.imgzip %>')"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye fa-fw"></i> Descargar evidencia
+                                                    </button>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend style="color: rgb(193, 0, 0);">
+                                    <i class="far fa-address-card"></i> &nbsp; Actividades sin completar
+                                </legend>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <ul class="activity-list">
+                                            <% actividades.forEach(actividad=> { %>
+                                                <li
+                                                    style="padding: 15px; border: 2px solid #000; margin-bottom: 10px; border-radius: 5px;">
+                                                    <p><strong>CONDIGO CONTRATO: </strong>
+                                                        <%= actividad.cliente.cod_contrato %>
+                                                    </p>
+                                                    <p><strong>CLIENTE: </strong>
+                                                        <%= actividad.cliente.nombres %>
+                                                    </p>
+                                                    <p><strong>TITULO: </strong>
+                                                        <%= actividad.titulo %>
+                                                    </p>
+                                                    <p><strong>DESCRIPCION: </strong>
+                                                        <%= actividad.descripcion %>
+                                                    </p>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+            </section>
+
+
+
+            <!-- Page header close-->
+    </main>
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").bootstrapMaterialDesign();
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/assets/js/main.js"></script>
+    <script>
+        function verinfo(imgzip) {
+            // Obtener el token (esto debería estar disponible en tu plantilla)
+
+            const apiurl = "<%- apiurl %>";
+            //alert(imgzip);
+
+            // Construir la URL para descargar el archivo
+            const url = `${apiurl}/rares/download/${imgzip}`;
+
+            // Redirigir al navegador a la URL para descargar el archivo
+            window.location.href = url;
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

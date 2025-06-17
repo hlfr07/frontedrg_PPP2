@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>Nuevo usuario</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="/src/assets/css/normalize.css" />
+
+    <!-- Font Awesome V5.15.4 (última versión gratuita compatible) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha384-DyZ88mC6Up2uqSiy+qv+q8jtZqWgRXpAF6cT6Q25F7zNkH9U8P1FN1d4Zx4C3o1H" crossorigin="anonymous" />
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap-material-design.min.css" />
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="/src/assets/css/all.css" />
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="/src/assets/css/sweetalert2.min.css" />
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="/src/assets/js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="/src/assets/css/jquery.mCustomScrollbar.css" />
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <style>
+        .file-upload {
+            background-color: #ffffff;
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            /* Adaptación automática al ancho del contenedor */
+        }
+
+        .file-upload-btn {
+            width: 100%;
+            margin: 0;
+            color: #fff;
+            background: #1FB264;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #15824B;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .file-upload-btn:hover {
+            background: #1AA059;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-btn:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        .file-upload-content {
+            display: none;
+            text-align: center;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Hace que el área de clic ocupe todo el contenedor */
+            height: 100%;
+            /* Asegura que la entrada cubra todo el contenedor */
+            opacity: 0;
+            /* Mantiene la entrada invisible */
+            cursor: pointer;
+            /* Muestra el cursor de clic */
+        }
+
+        .image-upload-wrap {
+            margin-top: 20px;
+            border: 4px dashed #1f64b2;
+            position: relative;
+            display: flex;
+            /* Asegura que todo el contenedor esté activo */
+            justify-content: center;
+            /* Centra el contenido */
+            align-items: center;
+            /* Centra verticalmente */
+            width: 100%;
+            /* Asegura que ocupe todo el ancho */
+            height: 100%;
+            /* Asegura que ocupe toda la altura disponible */
+        }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            background-color: #1FB264;
+            border: 4px dashed #ffffff;
+        }
+
+        .image-title-wrap {
+            padding: 0 15px 15px 15px;
+            color: #222;
+        }
+
+        .drag-text {
+            text-align: center;
+            color: #1f64b2;
+        }
+
+        .drag-text h3 {
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #1f64b2;
+            padding: 60px 0;
+        }
+
+        .file-upload-image {
+            max-height: 200px;
+            max-width: 200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .remove-image {
+            width: 200px;
+            margin: 0;
+            color: #fff;
+            background: #cd4535;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #b02818;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .remove-image:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .remove-image:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #1f64b2;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+
+        #file-name {
+            font-size: 16px;
+            color: #222;
+            word-break: break-word;
+        }
+    </style>
+
+    <style>
+        .progress-container {
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #f3f3f3;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: #1f64b2;
+            height: 100%;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+            transition: width 0.2s ease-in-out;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <%- include('../../components/navlateral.ejs') %>
+
+            <!-- Page content -->
+
+            <section class="full-box page-content">
+                <%- include('../../components/aside.ejs') %>
+
+                    <!-- Page header -->
+                    <div class="full-box page-header">
+                        <h3 class="text-left centered">
+                            <i class="fas fa-plus fa-fw"></i> &nbsp; CARGAR CLIENTES
+                        </h3>
+                        <p class="text-justify"></p>
+                    </div>
+
+
+                    <div class="container-fluid">
+                        <ul class="full-box list-unstyled page-nav-tabs">
+                            <li>
+                                <a class="active"><i class="fas fa-plus fa-fw"></i> &nbsp;CARGAR CLIENTES</a>
+                            </li>
+                            <li>
+                                <a href="/listaclientes"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE
+                                    CLIENTES</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="container-fluid">
+                        <fieldset>
+                            <legend>
+                                <i class="far fa-address-card"></i> &nbsp; Cargar clientes desde archivo Excel
+                            </legend>
+                            <div class="container-fluid" style="text-align: center;">
+                                <!-- Sección de guía para el archivo Excel -->
+                                <div class="excel-guide">
+                                    <h5 style="text-align: center; color: dodgerblue;">Formato requerido para el archivo
+                                        Excel</h5>
+                                    <p style="text-align: center;">El archivo debe contener los siguientes encabezados
+                                        en la primera fila:</p>
+                                    <div class="table-responsive" style="margin-bottom: 20px;">
+                                        <table class="table table-bordered table-sm"
+                                            style="width: 100%; text-align: center;">
+                                            <thead style="background-color: #1f64b2;">
+                                                <tr>
+                                                    <th>cod_contrato</th>
+                                                    <th>nombres</th>
+                                                    <th>direccion</th>
+                                                    <th>domicilio_legal</th>
+                                                    <th>dni</th>
+                                                    <th>ruc</th>
+                                                    <th>telefono</th>
+                                                    <th>email</th>
+                                                    <th>nacimiento</th>
+                                                    <th>ubigeo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>12345</td>
+                                                    <td>Juan Pérez</td>
+                                                    <td>Av. Principal 123</td>
+                                                    <td>Jr. Secundario 456</td>
+                                                    <td>12345678</td>
+                                                    <td>20123456789</td>
+                                                    <td>987654321</td>
+                                                    <td>juan.perez@example.com</td>
+                                                    <td>1990-01-01</td>
+                                                    <td>150101</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Nombre del campo: Input Text -->
+                                <div class="container-fluid">
+                                    <div class="file-upload">
+                                        <div class="image-upload-wrap" id="upload-wrap">
+                                            <input class="file-upload-input" id="file-input" type='file'
+                                                accept=".xls,.xlsx" onchange="handleFile(this);" />
+                                            <div class="drag-text" style="padding: 10px;">
+                                                <div class="file-wrapper">
+                                                    <div class="file-content">
+                                                        <div class="file-infos" style="padding-top: px;">
+                                                            <p class="file-icon"><i
+                                                                    class="fas fa-file-upload fa-7x"></i><span
+                                                                    class="icon-shadow"></span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h4 style="font: optional;">¡Cargar archivo Excel!</h4>
+                                            </div>
+                                        </div>
+                                        <div class="file-upload-content" id="file-content">
+                                            <div class="file-details">
+                                                <span id="file-name"></span>
+                                                <button class="remove-image" onclick="removeFile()">X</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="submitButton" onclick="submitFile()"
+                                    style="color: blanchedalmond; background-color: dodgerblue; padding: 5px;">Registrar
+                                    Clientes</button>
+
+                            </div>
+                            <div class="progress-container" style="display:none; margin-top: 20px;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                        role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+            </section>
+
+
+
+
+            <!-- Page header close-->
+    </main>
+
+
+    <!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="/src/assets/js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="/src/assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="/src/assets/js/bootstrap.min.js"></script>
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="/src/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="/src/assets/js/bootstrap-material-design.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").bootstrapMaterialDesign();
+        });
+    </script>
+
+    <script>
+        // Maneja la selección del archivo y lo guarda en una variable
+        let selectedFile = null;
+
+        function handleFile(input) {
+            const file = input.files[0];
+            selectedFile = input.files[0];
+            if (file) {
+                // Validar el tipo de archivo
+                const validExtensions = ['xls', 'xlsx'];
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                if (!validExtensions.includes(fileExtension)) {
+                    //usamos sweetalert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Solo se permiten archivos Excel (.xls, .xlsx)',
+                    })
+                    removeFile();
+                    return;
+                }
+
+                // Mostrar detalles del archivo
+                document.getElementById('upload-wrap').style.display = 'none';
+                document.getElementById('file-content').style.display = 'block';
+                document.getElementById('file-name').textContent = file.name;
+            }
+        }
+
+        function removeFile() {
+            // Restablecer el estado
+            const fileInput = document.getElementById('file-input');
+            fileInput.value = ''; // Vaciar el input de archivo
+            document.getElementById('upload-wrap').style.display = 'block';
+            document.getElementById('file-content').style.display = 'none';
+            selectedFile = null;
+        }
+
+        async function submitFile() {
+            if (!selectedFile) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Por favor selecciona un archivo Excel.',
+                });
+                return;
+            }
+
+            const button = document.getElementById('submitButton');
+            // Cambiar el contenido del botón
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando clientes...';
+            button.disabled = true; // Deshabilitar el botón para evitar clics repetidos
+
+            const progressBar = document.querySelector('.progress-bar');
+            const progressContainer = document.querySelector('.progress-container');
+            progressContainer.style.display = 'block';
+
+            // Tamaño del archivo en KB
+            const fileSizeKB = selectedFile.size / 1024;
+            const baseInterval = 1000; // Base de 1 segundo
+            const kbPerInterval = 100; // Incrementar por cada 100 KB
+            let intervalTime = Math.max(baseInterval, (fileSizeKB / kbPerInterval) * baseInterval);
+
+            // Limitar el intervalo máximo (opcional)
+            intervalTime = Math.min(intervalTime, 5000); // Máximo 5 segundos entre cada actualización
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress < 90) {
+                    progress += 5;
+                    updateProgressBar(progressBar, progress);
+                }
+            }, intervalTime);
+
+            const formData = new FormData();
+            formData.append('excelFile', selectedFile);
+            const headerRow = document.getElementById('headerRow') ? document.getElementById('headerRow').value : 1;
+            formData.append('headerRow', headerRow);
+
+            try {
+                const response = await fetch('/clientes', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    clearInterval(interval);
+                    progress = 100;
+                    updateProgressBar(progressBar, progress);
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'Archivo cargado y procesado correctamente.',
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }, 500);
+                } else {
+                    throw new Error(result.error || 'Error desconocido.');
+                }
+            } catch (error) {
+                clearInterval(interval);
+                resetProgressBar(progressBar, progressContainer);
+
+                // Simula una acción asincrónica con error
+                setTimeout(() => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `Error al procesar el archivo: ${error.message}`,
+                    }).then(() => { // Ejecutar cuando el usuario haga clic en "OK"
+                        button.innerHTML = 'Registrar';
+                        button.classList.remove('loading');
+                        button.disabled = false;
+                    });
+                }, 500);
+            }
+        }
+
+        function updateProgressBar(progressBar, value) {
+            progressBar.style.width = `${value}%`;
+            progressBar.setAttribute('aria-valuenow', value);
+            progressBar.textContent = `${value}%`;
+        }
+
+        function resetProgressBar(progressBar, progressContainer) {
+            progressBar.style.width = '0%';
+            progressBar.setAttribute('aria-valuenow', 0);
+            progressBar.textContent = '';
+            progressContainer.style.display = 'none';
+        }
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/assets/js/main.js"></script>
+
+
+</body>
+
+</html>
