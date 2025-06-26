@@ -20,7 +20,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-global.apiUrl = 'https://backendrg.theinnovatesoft.xyz';
+global.apiUrl = 'http://localhost:3000';
 
 // View engine
 app.set('view engine', 'ejs');
